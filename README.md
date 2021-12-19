@@ -25,5 +25,88 @@ cp -v *.tar.xz /hdfs/local/$USER/gridpacks/.
 ls *.tar.xz | xargs -I {} gfal-copy file://{} gsiftp://$SERVER:$PORT/cms/store/user/$CRAB_USERNAME/gridpacks
 ```
 
-2017 and 2018 are missing gridpacks for 340 GeV mass point, however, there's little point in producing them since we already have samples for 350 GeV mass point.
+2017 and 2018 are missing gridpacks for 340 GeV mass point, however, there's little point in producing them at all since
+we already have samples for 350 GeV mass point. Samples produced for 340 GeV are present only for bbtt decay mode. Thus,
+we only need to produce gridpacks for 2016 era, 850 GeV mass point, for both spin-0 and spin-2. The same gridpack can be
+used for either SL or DL decay modes, because HH decays are modeled with Pythia.
 
+## Sample production
+
+### Missing samples
+
+There are a total of 21 samples missing, not counting 12 samples for 340 GeV mass point (3 eras, 2 spins, 2 decay modes):
+- 400k events for resonant mass < 300 GeV (6 samples)
+- 300k events for 300 GeV <= resonant mass < 600 GeV (7 samples)
+- 200k events for 600 GeV <= resonant mass < 1000 GeV (8 samples)
+
+Thus, we need to produce 6.1M events in total.
+
+#### 2016
+
+| Spin-0 | Mass points             |
+|--------|-------------------------|
+| SL     | 280, 320, 750, 850      |
+| DL     | 250, 280, 320, 700, 850 |
+
+Gridpack (except for 850): `/cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.3.2.2/Radion_GF_HH/Radion_GF_HH_M${MASS}_narrow/v1/Radion_GF_HH_M${MASS}_narrow_tarball.tar.xz`
+
+| Spin-2 | Mass points             |
+|--------|-------------------------|
+| SL     | 280, 320, 750, 850      |
+| DL     | 250, 280, 320, 750, 850 |
+
+Gridpack (except for 850): `/cvmfs/cms.cern.ch/phys_generator/gridpacks/slc6_amd64_gcc481/13TeV/madgraph/V5_2.3.3/BulkGraviton_GF_HH_M${MASS}_narrow/v1/BulkGraviton_GF_HH_M${MASS}_narrow_tarball.tar.xz`
+
+#### 2017
+
+Spin-0, DL: 300, 550  
+Gridpack: `/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/madgraph/V5_2.4.2/Radion_hh_narrow_M${MASS}/v1/Radion_hh_narrow_M${MASS}_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz`
+
+#### 2018
+
+Spin-0, DL, 450  
+Gridpack: `/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/madgraph/V5_2.4.2/Radion_hh_narrow_M450/v1/Radion_hh_narrow_M450_slc6_amd64_gcc481_CMSSW_7_1_30_tarball.tar.xz`
+
+### Setup details
+
+| LHE, GEN+SIM |                                                       2016                                                       |                                                      2017                                                      |                                                      2018                                                      |
+|:------------:|:----------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|
+|     CMSSW    |                                                  `CMSSW_7_1_26`\*                                                |                                                 `CMSSW_9_3_10` \*\*                                            |                                                 `CMSSW_10_2_22`                                                |
+| Architecture |                                                `slc6_amd64_gcc481`                                               |                                               `slc6_amd64_gcc630`                                              |                                               `slc6_amd64_gcc700`\*\*\*                                        |
+|  Global tag  |                                                `MCRUN2_71_V1::All`                                               |                                            `93X_mc2017_realistic_v3`                                           |                                        `102X_upgrade2018_realistic_v11`                                        |
+| Era          | -                                                                                                                | `Run2_2017`                                                                                                    | `Run2_2018`                                                                                                    |
+| Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer15wmLHEGS-00167) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17wmLHEGS-02530) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall18wmLHEGS-03980) |
+
+\* While some spin-0 samples were produced in `CMSSW_7_1_24`, some spin-2 samples were produced in `CMSSW_7_1_25_patch3`, so the next available release is selected instead  
+\*\* Samples appear to be produced in `CMSSW_9_3_9_patch1`, however, it's not available anymore, so the next release is picked instead  
+\*\*\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
+
+|    AODSIM    |                                                         2016                                                        |                                                       2017                                                      |                                                        2018                                                       |
+|:------------:|:-------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------:|
+|     CMSSW    |                                                    `CMSSW_8_0_21`                                                   |                                                  `CMSSW_9_4_7`                                                  |                                                   `CMSSW_10_2_5`                                                  |
+| Architecture |                                                 `slc6_amd64_gcc530`                                                 |                                               `slc6_amd64_gcc630`                                               |                                                `slc6_amd64_gcc700`\*                                              |
+|  Global tag  |                                      `80X_mcRun2_asymptotic_2016_TrancheIV_v6`                                      |                                            `94X_mc2017_realistic_v11`                                           |                                          `102X_upgrade2018_realistic_v15`                                         |
+| Era          |                                                     `Run2_2016`                                                     |                                                   `Run2_2017`                                                   |                                                    `Run2_2018`                                                    |
+| Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16DR80Premix-01408) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17DRPremix-03149) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18DRPremix-03081) |
+
+\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
+
+|  MiniAODSIM  |                                                        2016                                                        |                                                       2017                                                       |                                                       2018                                                       |
+|:------------:|:------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
+|     CMSSW    |                                                    `CMSSW_9_4_9`                                                   |                                                   `CMSSW_9_4_7`                                                  |                                                  `CMSSW_10_2_5`                                                  |
+| Architecture |                                                 `slc6_amd64_gcc630`                                                |                                                `slc6_amd64_gcc630`                                               |                                                `slc6_amd64_gcc700`\*                                             |
+|  Global tag  |                                             `94X_mcRun2_asymptotic_v3`                                             |                                            `94X_mc2017_realistic_v14`                                            |                                         `102X_upgrade2018_realistic_v15`                                         |
+| Era          |                                         `Run2_2016,run2_miniAOD_80XLegacy`                                         |                                        `Run2_2017,run2_miniAOD_94XFall17`                                        |                                                    `Run2_2018`                                                   |
+| Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16MiniAODv3-00356) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17MiniAODv2-03080) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18MiniAOD-03099) |
+
+\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
+
+|   NanoAODv7  |                                                        2016                                                        |                                                       2017                                                       |                                                        2018                                                        |
+|:------------:|:------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------:|
+|     CMSSW    |                                                   `CMSSW_10_2_22`                                                  |                                                  `CMSSW_10_2_22`                                                 |                                                   `CMSSW_10_2_22`                                                  |
+| Architecture |                                                 `slc6_amd64_gcc700`\*                                              |                                                `slc6_amd64_gcc700`\*                                             |                                                 `slc6_amd64_gcc700`\*                                              |
+|  Global tag  |                                             `102X_mcRun2_asymptotic_v8`                                            |                                            `102X_mc2017_realistic_v8`                                            |                                          `102X_upgrade2018_realistic_v21`                                          |
+| Era          |                                          `Run2_2016,run2_nanoAOD_94X2016`                                          |                                       `Run2_2017,run2_nanoAOD_94XMiniAODv2`                                      |                                           `Run2_2018,run2_nanoAOD_102Xv1`                                          |
+| Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16NanoAODv7-00284) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17NanoAODv7-02340) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18NanoAODv7-02865) |
+
+\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`

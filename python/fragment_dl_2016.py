@@ -1,5 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
+# See eg
+# https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_fragment/HIG-RunIISummer15wmLHEGS-00167
+
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
   args = cms.vstring(''),
   nEvents = cms.untracked.uint32(250),

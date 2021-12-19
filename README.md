@@ -25,5 +25,5 @@ cp -v *.tar.xz /hdfs/local/$USER/gridpacks/.
 ls *.tar.xz | xargs -I {} gfal-copy file://{} gsiftp://$SERVER:$PORT/cms/store/user/$CRAB_USERNAME/gridpacks
 ```
 
-2017 and 2018 are missing gridpacks for 340 GeV mass point, however, there's little point in producing it since we already have samples for 350 GeV mass point.
+2017 and 2018 are missing gridpacks for 340 GeV mass point, however, there's little point in producing them since we already have samples for 350 GeV mass point.
 

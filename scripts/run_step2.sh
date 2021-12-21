@@ -73,7 +73,8 @@ if [ ! -f $fileIn ]; then
   echo "No such file: $fileIn";
   exit 1;
 fi;
-fileOut="${current_step}.root"
+fileOut="${current_step}.root";
+fwFile="FrameworkJobReport.${current_step}.xml";
 
 CMSDRIVER_OPTS="$FRAGMENT_LOCATION";
 CMSDRIVER_OPTS+=" --python_filename $pset";
@@ -109,9 +110,10 @@ else
 fi;
 
 # run the job
-/usr/bin/time --verbose cmsRun -j FrameworkJobReport.${current_step}.xml $pset;
+/usr/bin/time --verbose cmsRun -j $fwFile $pset;
 
 # show the contents of cwd
 ls -lh;
 
 mv -v $fileOut $CWD;
+mv -v $fwFile $CWD;

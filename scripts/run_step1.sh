@@ -87,6 +87,7 @@ if [ ! -f $fileInTmp ]; then
   exit 1;
 fi;
 fileOutTmp="${tmpStep}.root";
+fwFileTmp="FrameworkJobReport.${tmpStep}.xml";
 
 CMSDRIVER_OPTS_COMMON="";
 CMSDRIVER_OPTS_COMMON+=" --conditions $GLOBAL_TAG";
@@ -126,7 +127,7 @@ else
 fi;
 
 # run the job
-/usr/bin/time --verbose cmsRun -j FrameworkJobReport.${tmpStep}.xml $psetTmp;
+/usr/bin/time --verbose cmsRun -j $fwFileTmp $psetTmp;
 
 # show the contents of cwd
 ls -lh;
@@ -135,11 +136,13 @@ if [ ! -f $fileOutTmp ]; then
   echo "No such file: $fileOutTmp";
   exit 1;
 fi;
+mv -v $fwFileTmp $CWD;
 
 # define the remaining invariant
 psetFinal="${current_step}.py";
 dumpFileFinal="${current_step}.log";
 fileOut="${current_step}.root";
+fwFile="FrameworkJobReport.${current_step}.xml";
 
 CMSDRIVER_OPTS_AOD=$CMSDRIVER_OPTS_COMMON;
 CMSDRIVER_OPTS_AOD+=" --python_filename $pset";
@@ -164,9 +167,10 @@ else
 fi;
 
 # run the job
-/usr/bin/time --verbose cmsRun -j FrameworkJobReport.${current_step}.xml $psetFinal;
+/usr/bin/time --verbose cmsRun -j $fwFile $psetFinal;
 
 # show the contents of cwd
 ls -lh;
 
 mv -v $fileOut $CWD;
+mv -v $fwFile $CWD;

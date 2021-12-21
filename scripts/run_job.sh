@@ -26,18 +26,26 @@ decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
 image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;
 cmssw_host=$(realpath --relative-to=$PWD $CMSSW_BASE);
 
+echo "Singularity image: $(ls $image)";
+echo "CMSSW version: $CMSSW_VERSION";
+echo "CMSSW host: $cmssw_host";
+
 ls -lh;
 
-echo "Running LHE and GEN+SIM step";
+echo "Running LHE and GEN+SIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
   run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr $decayMode_str $cmssw_host step0;
 
-echo "Running PU premixing and AODSIM step";
+echo "Running PU premixing and AODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
   run_step1.sh $era $cmssw_host step0 step1;
 
-echo "Running MiniAODSIM step";
+echo "Running MiniAODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
   run_step2.sh $era $cmssw_host step1 step2;
+
+echo "All done (`date`)";
+
+cat FrameworkJobReport.*.xml > FrameworkJobReport.xml;
 
 ls -lh;

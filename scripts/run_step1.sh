@@ -92,7 +92,7 @@ CMSDRIVER_OPTS_COMMON="";
 CMSDRIVER_OPTS_COMMON+=" --conditions $GLOBAL_TAG";
 CMSDRIVER_OPTS_COMMON+="  --era $ERA";
 CMSDRIVER_OPTS_COMMON+=" --no_exec";
-CMSDRIVER_OPTS_COMMON+=" --mc ";
+CMSDRIVER_OPTS_COMMON+=" --mc";
 CMSDRIVER_OPTS_COMMON+=" -n -1";
 
 if [ ! -z "$EXTRA_CUSTOMS" ]; then
@@ -153,7 +153,7 @@ CMSDRIVER_OPTS_AOD+=" --customise_commands \"$CUSTOMIZATION;process=debug(proces
 
 if [ ! -z "$EXTRA_ARGS_AOD" ]; then
   CMSDRIVER_OPTS_AOD+=" $EXTRA_ARGS_AOD";
-fi
+fi;
 
 # dump the parameter sets
 python $psetFinal;

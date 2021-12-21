@@ -26,7 +26,7 @@ decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
 image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;
 cmssw_host=$(realpath --relative-to=$PWD $CMSSW_BASE);
 
-ls -lh
+ls -lh;
 
 echo "Running LHE and GEN+SIM step";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
@@ -34,10 +34,10 @@ singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $ima
 
 echo "Running PU premixing and AODSIM step";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step1.sh $era step0 step1;
+  run_step1.sh $era $cmssw_host step0 step1;
 
 echo "Running MiniAODSIM step";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step2.sh $era step1 step2;
+  run_step2.sh $era $cmssw_host step1 step2;
 
-ls -lh
+ls -lh;

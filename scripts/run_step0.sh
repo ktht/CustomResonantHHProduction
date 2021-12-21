@@ -138,7 +138,7 @@ CMSDRIVER_OPTS+=" --conditions $GLOBAL_TAG";
 CMSDRIVER_OPTS+=" --beamspot $BEAMSPOT";
 CMSDRIVER_OPTS+=" --step LHE,GEN,SIM";
 CMSDRIVER_OPTS+=" --no_exec";
-CMSDRIVER_OPTS+=" --mc ";
+CMSDRIVER_OPTS+=" --mc";
 CMSDRIVER_OPTS+=" -n $nEvents";
 CMSDRIVER_OPTS+=" --customise_commands \"$CUSTOMIZATION\"";
 
@@ -150,7 +150,7 @@ if [ ! -z "$EXTRA_CUSTOMS" ]; then
 fi;
 if [ ! -z "$EXTRA_ARGS" ]; then
   CMSDRIVER_OPTS+=" $EXTRA_ARGS";
-fi
+fi;
 
 # generate the cfg file
 cmsDriver.py $CMSDRIVER_OPTS;

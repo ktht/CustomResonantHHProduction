@@ -110,7 +110,8 @@ DATA_TARGET_DIR="${REPO_DIR}/data";
 
 FRAGMENT_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
 CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
-DATSCRIPT_LOCATION="$cmssw_host/src/$DATA_TARGET_DIR/run_generic_tarball_gfal.sh";
+export DATASCRIPT_BASE="$DATA_TARGET_DIR/run_generic_tarball_gfal.sh";
+DATSCRIPT_LOCATION="$cmssw_host/src/$DATASCRIPT_BASE";
 
 mkdir -pv $PYTHON_TARGET_DIR;
 mkdir -pv $DATA_TARGET_DIR;

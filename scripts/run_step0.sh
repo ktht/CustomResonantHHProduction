@@ -10,14 +10,14 @@ spin=$5;
 mass=$6;
 decayMode=$7;
 cmssw_host=$(realpath -e $8);
-step_name=$9;
+current_step=$9;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
 echo "Home is: $HOME";
 echo "Host CMSSW: $cmssw_host";
 
-# determine CMSSW release, arch, GT, gridpack
+# determine runtime options
 if [ "$era" == "2016" ]; then
   SCRAM_ARCH="slc6_amd64_gcc481";
   CMSSW_RELEASE="CMSSW_7_1_26";
@@ -79,11 +79,6 @@ else
   exit 1;
 fi;
 
-# add keyword
-if [ ! -z "$ERA" ]; then
-  ERA="--era $ERA";
-fi;
-
 EXTRA_CUSTOMS+=" Configuration/DataProcessing/Utils.addMonitoring";
 EXTRA_CUSTOMS=$(echo "$EXTRA_CUSTOMS" | sed 's/^ //g' | tr ' ' ',');
 
@@ -93,11 +88,6 @@ nEvents_expected=$(( $jobId * $eventsPerLumi ));
 if [ $nEvents_expected -gt $maxEvents ]; then
   nEvents=$(( $maxEvents - ( $jobId - 1 ) * $eventsPerLumi ));
 fi;
-
-# define the remaining invariant
-pset="${step_name}.py";
-dumpFile="${step_name}.log";
-fileOut="${step_name}.root"
 
 # set up CMSSW area
 export SCRAM_ARCH;
@@ -118,9 +108,9 @@ REPO_DIR="Configuration/CustomResonantHHProduction";
 PYTHON_TARGET_DIR="${REPO_DIR}/python";
 DATA_TARGET_DIR="${REPO_DIR}/data";
 
-FRAGMENT_LOCATION="$cmssw_host/$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
-CUSTOMIZATION_LOCATION="$cmssw_host/$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
-DATSCRIPT_LOCATION="$cmssw_host/$DATA_TARGET_DIR/run_generic_tarball_gfal.sh";
+FRAGMENT_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
+CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
+DATSCRIPT_LOCATION="$cmssw_host/src/$DATA_TARGET_DIR/run_generic_tarball_gfal.sh";
 
 mkdir -pv $PYTHON_TARGET_DIR;
 mkdir -pv $DATA_TARGET_DIR;
@@ -134,22 +124,36 @@ CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
 CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import customize;"
 CUSTOMIZATION+="process=customize(process,$jobId,$eventsPerLumi,'$GRIDPACK','$dumpFile');"
 
+# define the remaining invariant
+pset="${current_step}.py";
+dumpFile="${current_step}.log";
+fileOut="${current_step}.root"
+
+CMSDRIVER_OPTS="$FRAGMENT_LOCATION";
+CMSDRIVER_OPTS+=" --python_filename $pset";
+CMSDRIVER_OPTS+=" --eventcontent RAWSIM,LHE";
+CMSDRIVER_OPTS+=" --datatier GEN-SIM,LHE";
+CMSDRIVER_OPTS+=" --fileout file:$fileOut";
+CMSDRIVER_OPTS+=" --conditions $GLOBAL_TAG";
+CMSDRIVER_OPTS+=" --beamspot $BEAMSPOT";
+CMSDRIVER_OPTS+=" --step LHE,GEN,SIM";
+CMSDRIVER_OPTS+=" --no_exec";
+CMSDRIVER_OPTS+=" --mc ";
+CMSDRIVER_OPTS+=" -n $nEvents";
+CMSDRIVER_OPTS+=" --customise_commands \"$CUSTOMIZATION\"";
+
+if [ ! -z "$ERA" ]; then
+  CMSDRIVER_OPTS+=" --era=$ERA";
+fi;
+if [ ! -z "$EXTRA_CUSTOMS" ]; then
+  CMSDRIVER_OPTS+=" --customise $EXTRA_CUSTOMS";
+fi;
+if [ ! -z "$EXTRA_ARGS" ]; then
+  CMSDRIVER_OPTS+=" $EXTRA_ARGS";
+fi
+
 # generate the cfg file
-cmsDriver.py \
-  $FRAGMENT_LOCATION \
-  --python_filename $pset \
-  --eventcontent RAWSIM,LHE \
-  --customise $EXTRA_CUSTOMS \
-  --beamspot $BEAMSPOT \
-  --datatier GEN-SIM,LHE \
-  --fileout file:$fileOut \
-  --conditions $GLOBAL_TAG \
-  --customise_commands $CUSTOMIZATION \
-  --step LHE,GEN,SIM \
-  --no_exec \
-  --mc \
-  -n $nEvents \
-  $EXTRA_ARGS
+cmsDriver.py $CMSDRIVER_OPTS;
 
 # dump the parameter sets
 python $pset;
@@ -160,8 +164,9 @@ else
 fi;
 
 # run the job
-/usr/bin/time --verbose cmsRun -j FrameworkJobReport.${step_name}.xml $pset;
-mv -v $fileOut $CWD;
+/usr/bin/time --verbose cmsRun -j FrameworkJobReport.${current_step}.xml $pset;
 
 # show the contents of cwd
 ls -lh;
+
+mv -v $fileOut $CWD;

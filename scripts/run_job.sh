@@ -34,10 +34,10 @@ singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $ima
 
 echo "Running PU premixing and AODSIM step";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step1.sh $jobId step0 step1;
+  run_step1.sh $era step0 step1;
 
 echo "Running MiniAODSIM step";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step2.sh $jobId step1 step2;
+  run_step2.sh $era step1 step2;
 
 ls -lh

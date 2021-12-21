@@ -4,6 +4,7 @@
 # run_job.sh 123 eventsPerLumi=100 maxEvents=250 era=2016 spin=0 mass=250 decayMode=sl
 
 #TODO adjust for running on /scratch (need more bind arguments)
+#TODO clean up after intermediate steps
 
 set -x
 
@@ -29,6 +30,10 @@ cmssw_host=$(realpath --relative-to=$PWD $CMSSW_BASE);
 echo "Singularity image: $(ls $image)";
 echo "CMSSW version: $CMSSW_VERSION";
 echo "CMSSW host: $cmssw_host";
+
+# copy files from $CMSSW_BASE to cwd
+BASEDIR="$CMSSW_BASE/src/Configuration/CustomResonantHHProduction/scripts";
+cp -v $BASEDIR/run_step*.sh .;
 
 ls -lh;
 

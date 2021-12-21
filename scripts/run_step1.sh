@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO create the list of PU files before
+
 set -x
 
 era=$1;

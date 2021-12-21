@@ -72,34 +72,29 @@ Gridpack: `/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/madgraph/V5_2.
 | LHE, GEN+SIM |                                                       2016                                                       |                                                      2017                                                      |                                                      2018                                                      |
 |:------------:|:----------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|
 |     CMSSW    |                                                  `CMSSW_7_1_26`\*                                                |                                                 `CMSSW_9_3_10` \*\*                                            |                                                 `CMSSW_10_2_22`                                                |
-| Architecture |                                                `slc6_amd64_gcc481`                                               |                                               `slc6_amd64_gcc630`                                              |                                               `slc6_amd64_gcc700`\*\*\*                                        |
+| Architecture |                                                `slc6_amd64_gcc481`                                               |                                               `slc6_amd64_gcc630`                                              |                                               `slc6_amd64_gcc700`                                              |
 |  Global tag  |                                                `MCRUN2_71_V1::All`                                               |                                            `93X_mc2017_realistic_v3`                                           |                                        `102X_upgrade2018_realistic_v11`                                        |
 | Era          | -                                                                                                                | `Run2_2017`                                                                                                    | `Run2_2018`                                                                                                    |
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer15wmLHEGS-00167) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17wmLHEGS-02530) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall18wmLHEGS-03980) |
 
 \* While some spin-0 samples were produced in `CMSSW_7_1_24`, some spin-2 samples were produced in `CMSSW_7_1_25_patch3`, so the next available release is selected instead  
-\*\* Samples appear to be produced in `CMSSW_9_3_9_patch1`, however, it's not available anymore, so the next release is picked instead  
-\*\*\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
+\*\* Samples appear to be produced in `CMSSW_9_3_9_patch1`, however, it's not available anymore, so the next release is picked instead
 
 |    AODSIM    |                                                         2016                                                        |                                                       2017                                                      |                                                        2018                                                       |
 |:------------:|:-------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------:|
 |     CMSSW    |                                                    `CMSSW_8_0_21`                                                   |                                                  `CMSSW_9_4_7`                                                  |                                                   `CMSSW_10_2_5`                                                  |
-| Architecture |                                                 `slc6_amd64_gcc530`                                                 |                                               `slc6_amd64_gcc630`                                               |                                                `slc6_amd64_gcc700`\*                                              |
+| Architecture |                                                 `slc6_amd64_gcc530`                                                 |                                               `slc6_amd64_gcc630`                                               |                                                `slc6_amd64_gcc700`                                                |
 |  Global tag  |                                      `80X_mcRun2_asymptotic_2016_TrancheIV_v6`                                      |                                            `94X_mc2017_realistic_v11`                                           |                                          `102X_upgrade2018_realistic_v15`                                         |
 | Era          |                                                     `Run2_2016`                                                     |                                                   `Run2_2017`                                                   |                                                    `Run2_2018`                                                    |
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16DR80Premix-01408) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17DRPremix-03149) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18DRPremix-03081) |
 
-\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
-
 |  MiniAODSIM  |                                                        2016                                                        |                                                       2017                                                       |                                                       2018                                                       |
 |:------------:|:------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
 |     CMSSW    |                                                    `CMSSW_9_4_9`                                                   |                                                   `CMSSW_9_4_7`                                                  |                                                  `CMSSW_10_2_5`                                                  |
-| Architecture |                                                 `slc6_amd64_gcc630`                                                |                                                `slc6_amd64_gcc630`                                               |                                                `slc6_amd64_gcc700`\*                                             |
+| Architecture |                                                 `slc6_amd64_gcc630`                                                |                                                `slc6_amd64_gcc630`                                               |                                                `slc6_amd64_gcc700`                                               |
 |  Global tag  |                                             `94X_mcRun2_asymptotic_v3`                                             |                                            `94X_mc2017_realistic_v14`                                            |                                         `102X_upgrade2018_realistic_v15`                                         |
 | Era          |                                         `Run2_2016,run2_miniAOD_80XLegacy`                                         |                                        `Run2_2017,run2_miniAOD_94XFall17`                                        |                                                    `Run2_2018`                                                   |
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16MiniAODv3-00356) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17MiniAODv2-03080) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18MiniAOD-03099) |
-
-\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
 
 |   NanoAODv7  |                                                        2016                                                        |                                                       2017                                                       |                                                        2018                                                        |
 |:------------:|:------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------:|
@@ -110,3 +105,83 @@ Gridpack: `/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/madgraph/V5_2.
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16NanoAODv7-00284) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17NanoAODv7-02340) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18NanoAODv7-02865) |
 
 \* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
+
+### Instructions
+
+Set up CMSSW:
+
+```bash
+cd $HOME
+source /cvmfs/cms.cern.ch/cmsset_default.sh;
+cmsrel CMSSW_10_2_22
+cd $_/src
+cmsenv
+git clone https://github.com/ktht/CustomResonantHHProduction.git Configuration/CustomResonantHHProduction
+scram b -j8
+```
+
+Run the jobs locally:
+
+```bash
+# arguments: [prod|test] era spin [sl|dl] mass
+
+submit_local.sh prod 2016 0 sl 280
+submit_local.sh prod 2016 0 sl 320
+submit_local.sh prod 2016 0 sl 750
+submit_local.sh prod 2016 0 sl 850
+
+submit_local.sh prod 2016 0 dl 250
+submit_local.sh prod 2016 0 dl 280
+submit_local.sh prod 2016 0 dl 320
+submit_local.sh prod 2016 0 dl 700
+submit_local.sh prod 2016 0 dl 850
+
+submit_local.sh prod 2016 2 sl 280
+submit_local.sh prod 2016 2 sl 320
+submit_local.sh prod 2016 2 sl 750
+submit_local.sh prod 2016 2 sl 850
+
+submit_local.sh prod 2016 2 dl 250
+submit_local.sh prod 2016 2 dl 280
+submit_local.sh prod 2016 2 dl 320
+submit_local.sh prod 2016 2 dl 750
+submit_local.sh prod 2016 2 dl 850
+
+submit_local.sh prod 2017 0 dl 300
+submit_local.sh prod 2017 0 dl 550
+
+submit_local.sh prod 2018 0 dl 450
+```
+
+Or run the on the grid:
+
+```bash
+# arguments: [prod|test] era spin [sl|dl] mass version
+
+submit_crab.sh prod 2016 0 sl 280 v0
+submit_crab.sh prod 2016 0 sl 320 v0
+submit_crab.sh prod 2016 0 sl 750 v0
+submit_crab.sh prod 2016 0 sl 850 v0
+
+submit_crab.sh prod 2016 0 dl 250 v0
+submit_crab.sh prod 2016 0 dl 280 v0
+submit_crab.sh prod 2016 0 dl 320 v0
+submit_crab.sh prod 2016 0 dl 700 v0
+submit_crab.sh prod 2016 0 dl 850 v0
+
+submit_crab.sh prod 2016 2 sl 280 v0
+submit_crab.sh prod 2016 2 sl 320 v0
+submit_crab.sh prod 2016 2 sl 750 v0
+submit_crab.sh prod 2016 2 sl 850 v0
+
+submit_crab.sh prod 2016 2 dl 250 v0
+submit_crab.sh prod 2016 2 dl 280 v0
+submit_crab.sh prod 2016 2 dl 320 v0
+submit_crab.sh prod 2016 2 dl 750 v0
+submit_crab.sh prod 2016 2 dl 850 v0
+
+submit_crab.sh prod 2017 0 dl 300 v0
+submit_crab.sh prod 2017 0 dl 550 v0
+
+submit_crab.sh prod 2018 0 dl 450 v0
+```

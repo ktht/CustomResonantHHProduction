@@ -1,0 +1,14 @@
+#!/bin/bash
+
+JOB_IDX=$1;
+ERA=$2;
+SPIN=$3;
+DECAY_MODE=$4;
+MASS=$5;
+VERSION=$6;
+NEVENTS=$7;
+NEVENTS_PER_SAMPLE=$8;
+CLEANUP=$9;
+
+# ..
+

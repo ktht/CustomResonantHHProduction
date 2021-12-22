@@ -105,15 +105,6 @@ fi
 if [ "$METHOD" == "crab" ]; then
   crab submit $DRYRUN --config="$CRAB_CFG"
 elif [ "$MODE" == "slurm" ]; then
-  NOF_EVENTS_LAST=$NEVENTS_PER_SAMPLE;
-  EXCESS=$(($NEVENTS - $NOF_JOBS * $NEVENTS_PER_SAMPLE));
-
-  if [ $NEVENTS -lt $NEVENTS_PER_SAMPLE ]; then
-    NOF_EVENTS_LAST=$NEVENTS;
-  elif [ $EXCESS -lt 0 ]; then
-    NOF_EVENTS_LAST=$(( $EXCESS + $NEVENTS_PER_SAMPLE ));
-  fi
-
   PYCMD="from Configuration.CustomResonantHHProduction.aux import get_dataset_name;"
   PYCMD+="get_dataset_name($ERA,$SPIN,$DECAY_MODE,$MASS)";
   DATASET=$(python -c "$PYCMD");
@@ -123,12 +114,8 @@ elif [ "$MODE" == "slurm" ]; then
   OUTPUT_DIR="/hdfs/local/$DIR_SUFFIX";
 
   for i in `seq 1 $NOF_JOBS`; do
-    NOF_EVENTS=$NEVENTS_PER_SAMPLE;
-    if [ "$i" == "$NOF_JOBS" ]; then
-      NOF_EVENTS=$NOF_EVENTS_LAST;
-    fi
     sbatch --partition=$SBATCH_QUEUE --output=$LOG_DIR/out_$i.log \
-      job_wrapper.sh $i $ERA $SPIN $DECAY_MODE $MASS $VERSION $NOF_EVENTS $NEVENTS_PER_SAMPLE $OUTPUT_DIR;
+      job_wrapper.sh $i $ERA $SPIN $DECAY_MODE $MASS $VERSION $NEVENTS $NEVENTS_PER_SAMPLE $OUTPUT_DIR;
   done
 else
   # should never happen

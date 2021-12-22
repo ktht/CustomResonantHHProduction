@@ -1,5 +1,11 @@
 # Resonant HH production
 
+## TODO
+
+- adjust `run_job.sh` for running on /scratch (need more bind arguments)
+- compile the list of PU files before passing them to step1
+- dummy PSet
+
 ## Create missing gridpacks
 
 NB! Do the following in clean environment, no CMSSW:
@@ -125,32 +131,32 @@ Run the jobs locally:
 ```bash
 # arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass
 
-submit_local.sh crab prod 2016 0 sl 280
-submit_local.sh crab prod 2016 0 sl 320
-submit_local.sh crab prod 2016 0 sl 750
-submit_local.sh crab prod 2016 0 sl 850
+submit_jobs.sh crab prod 2016 0 sl 280
+submit_jobs.sh crab prod 2016 0 sl 320
+submit_jobs.sh crab prod 2016 0 sl 750
+submit_jobs.sh crab prod 2016 0 sl 850
 
-submit_local.sh crab prod 2016 0 dl 250
-submit_local.sh crab prod 2016 0 dl 280
-submit_local.sh crab prod 2016 0 dl 320
-submit_local.sh crab prod 2016 0 dl 700
-submit_local.sh crab prod 2016 0 dl 850
+submit_jobs.sh crab prod 2016 0 dl 250
+submit_jobs.sh crab prod 2016 0 dl 280
+submit_jobs.sh crab prod 2016 0 dl 320
+submit_jobs.sh crab prod 2016 0 dl 700
+submit_jobs.sh crab prod 2016 0 dl 850
 
-submit_local.sh crab prod 2016 2 sl 280
-submit_local.sh crab prod 2016 2 sl 320
-submit_local.sh crab prod 2016 2 sl 750
-submit_local.sh crab prod 2016 2 sl 850
+submit_jobs.sh crab prod 2016 2 sl 280
+submit_jobs.sh crab prod 2016 2 sl 320
+submit_jobs.sh crab prod 2016 2 sl 750
+submit_jobs.sh crab prod 2016 2 sl 850
 
-submit_local.sh crab prod 2016 2 dl 250
-submit_local.sh crab prod 2016 2 dl 280
-submit_local.sh crab prod 2016 2 dl 320
-submit_local.sh crab prod 2016 2 dl 750
-submit_local.sh crab prod 2016 2 dl 850
+submit_jobs.sh crab prod 2016 2 dl 250
+submit_jobs.sh crab prod 2016 2 dl 280
+submit_jobs.sh crab prod 2016 2 dl 320
+submit_jobs.sh crab prod 2016 2 dl 750
+submit_jobs.sh crab prod 2016 2 dl 850
 
-submit_local.sh crab prod 2017 0 dl 300
-submit_local.sh crab prod 2017 0 dl 550
+submit_jobs.sh crab prod 2017 0 dl 300
+submit_jobs.sh crab prod 2017 0 dl 550
 
-submit_local.sh crab prod 2018 0 dl 450
+submit_jobs.sh crab prod 2018 0 dl 450
 ```
 
 When running locally, replace `crab` with `slurm` in the above commands.

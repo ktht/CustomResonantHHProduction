@@ -4,7 +4,6 @@
 # run_job.sh 123 eventsPerLumi=100 maxEvents=250 era=2016 spin=0 mass=250 decayMode=sl
 
 #TODO adjust for running on /scratch (need more bind arguments)
-#TODO clean up after intermediate steps
 
 set -x
 
@@ -15,6 +14,7 @@ era=$4;
 spin=$5;
 mass=$6;
 decayMode=$7;
+cleanup=$8;
 
 eventsPerLumi_nr=$(echo $eventsPerLumi | sed 's/^eventsPerLumi=//g');
 maxEvents_nr=$(echo $maxEvents | sed 's/^maxEvents=//g');
@@ -22,6 +22,7 @@ era_nr=$(echo $era | sed 's/^era=//g');
 spin_nr=$(echo $spin | sed 's/^spin=//g');
 mass_nr=$(echo $mass | sed 's/^mass=//g');
 decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
+cleanup_str=$(echo $cleanup | sed 's/^cleanup=//g');
 
 # use the same container (SLC6)
 image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;
@@ -37,17 +38,26 @@ cp -v $BASEDIR/run_step*.sh .;
 
 ls -lh;
 
+mkdir step0 && cd $_;
 echo "Running LHE and GEN+SIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
   run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr $decayMode_str $cmssw_host step0;
+cd -;
+if [ "$cleanup_str" == "true" ]; then rm -rf step0; fi
 
+mkdir step1 && cd $_;
 echo "Running PU premixing and AODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
   run_step1.sh $era $cmssw_host step0 step1;
+cd -;
+if [ "$cleanup_str" == "true" ]; then rm -rf step1; fi
 
+mkdir step2 && cd $_;
 echo "Running MiniAODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
   run_step2.sh $era $cmssw_host step1 step2;
+cd -;
+if [ "$cleanup_str" == "true" ]; then rm -rf step2; fi
 
 echo "All done (`date`)";
 

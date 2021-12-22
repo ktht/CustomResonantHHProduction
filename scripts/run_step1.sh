@@ -62,6 +62,7 @@ else
 fi;
 cd $CMSSW_RELEASE/src;
 eval `scram runtime -sh`; # cmsenv
+scram b;
 
 # prepare customization
 CUSTOMIZATION_NAME="customize.py";

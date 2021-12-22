@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: submit_crab.sh [prod|test] [2016|2017|2018] [0|2] [sl|dl] mass
+# Usage: submit_jobs.sh [prod|test] [2016|2017|2018] [0|2] [sl|dl] mass
 # [prod|test] -- for full production or testing
 # [2016|2017|2018] -- era
 # [0|2] -- spin
@@ -79,10 +79,15 @@ if [ ! -z "$DRYRUN" ]; then
   DRYRUN="--dryrun";
 fi
 
+NOF_JOBS=$(( $NEVENTS / $NEVENTS_PER_JOB ));
+if [ $(( $NOF_JOBS * $NEVENTS_PER_JOB )) -lt  $NOF_JOBS ]; then
+  $NOF_JOBS+=1;
+fi
 echo "Submitting jobs with the following parameters:"
 echo "Number of events:         $NEVENTS";
 echo "Number of events per job: $NEVENTS_PER_JOB";
-echo -ne "Dryrun:               ";
+echo "Number of jobs:           $NOF_JOBS";
+echo -ne "Dryrun:                   ";
 if [ -z "$DRYRUN" ]; then echo "no"; else echo "yes"; fi
 
 read -p "Submitting jobs? [y/N]" -n 1 -r

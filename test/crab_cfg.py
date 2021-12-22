@@ -71,6 +71,7 @@ config.JobType.scriptArgs              = [
   'spin={}'.format(SPIN),
   'mass={}'.format(MASS),
   'decayMode={}'.format(DECAY_MODE),
+  'cleanup=true',
 ]
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.numCores                = 1

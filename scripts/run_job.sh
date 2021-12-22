@@ -32,32 +32,20 @@ echo "Singularity image: $(ls $image)";
 echo "CMSSW version: $CMSSW_VERSION";
 echo "CMSSW host: $cmssw_host";
 
-# copy files from $CMSSW_BASE to cwd
-BASEDIR="$CMSSW_BASE/src/Configuration/CustomResonantHHProduction/scripts";
-cp -v $BASEDIR/run_step*.sh .;
-
 ls -lh;
 
-mkdir step0 && cd $_;
 echo "Running LHE and GEN+SIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr $decayMode_str $cmssw_host step0;
-cd -;
-if [ "$cleanup_str" == "true" ]; then rm -rf step0; fi
+  ./run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr  \
+                 $decayMode_str $cmssw_host $cleanup_str step0;
 
-mkdir step1 && cd $_;
 echo "Running PU premixing and AODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step1.sh $era $cmssw_host step0 step1;
-cd -;
-if [ "$cleanup_str" == "true" ]; then rm -rf step1; fi
+  ./run_step1.sh $era $cmssw_host step0 step1;
 
-mkdir step2 && cd $_;
 echo "Running MiniAODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs --contain --ipc --pid $image \
-  run_step2.sh $era $cmssw_host step1 step2;
-cd -;
-if [ "$cleanup_str" == "true" ]; then rm -rf step2; fi
+  ./run_step2.sh $era $cmssw_host step1 step2;
 
 echo "All done (`date`)";
 

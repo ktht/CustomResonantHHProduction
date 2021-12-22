@@ -1,5 +1,7 @@
 from CRABClient.UserUtilities import config, getUsernameFromCRIC
 
+from Configuration.CustomResonantHHProduction.aux import get_dataset_name
+
 import os
 import datetime
 
@@ -16,18 +18,6 @@ def get_env_var(env_var, fail_if_not_exists = True, test_type = None):
   if test_type != None:
     assert(test_type(env_val))
   return env_val
-
-def get_dataset_name(era, spin, decay_mode, mass):
-  assert(spin in [ 0, 2 ])
-  assert(decay_mode in [ "sl", "dl" ])
-  assert(era in [ 2016, 2017, 2018 ])
-  result = "GluGluTo{}ToHHTo{}_M-{}_narrow_{}13TeV-madgraph-pythia8".format(
-    "Radion" if spin == 0 else "BulkGraviton",
-    "2B2VTo2L2Nu" if decay_mode == "dl" else "2B2WToLNu2J",
-    mass,
-    'TuneCP5_PSWeights_' if era == 2018 else '',
-  )
-  return result
 
 NEVENTS_PER_JOB = get_env_var('NEVENTS_PER_JOB', test_type = test_positive_int)
 NEVENTS         = get_env_var('NEVENTS', test_type = test_positive_int)
@@ -48,7 +38,10 @@ CRAB_LOC      = os.path.join(os.path.expanduser('~'), 'crab_projects')
 if not os.path.isdir(CRAB_LOC):
   os.makedirs(CRAB_LOC)
 assert(os.path.isfile(PSET_LOC))
-assert(os.path.isfile(SCRIPTEXE_LOC))
+
+PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC ] + [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(3) ]
+for payload in PAYLOAD:
+  assert(os.path.isfile(payload))
 
 DATASET      = get_dataset_name(SPIN, DECAY_MODE, MASS)
 ID           = '{}_{}_{}'.format(TODAY, DATASET, VERSION)
@@ -77,7 +70,8 @@ config.JobType.allowUndistributedCMSSW = True
 config.JobType.numCores                = 1
 config.JobType.maxMemoryMB             = 2500
 config.JobType.eventsPerLumi           = int(NEVENTS_PER_JOB)
-config.JobType.inputFiles              = [ SCRIPTEXE_LOC, PSET_LOC ]
+config.JobType.inputFiles              = PAYLOAD
+config.JobType.sendPythonFolder        = True
 
 config.Site.storageSite          = 'T2_EE_Estonia'
 config.Data.outputPrimaryDataset = DATASET

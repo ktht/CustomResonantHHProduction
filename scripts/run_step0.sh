@@ -10,12 +10,17 @@ spin=$5;
 mass=$6;
 decayMode=$7;
 cmssw_host=$(realpath -e $8);
-current_step=$9;
+cleanup=$9;
+current_step=$10;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
 echo "Home is: $HOME";
 echo "Host CMSSW: $cmssw_host";
+
+# go to a separate directory
+mkdir -pv $current_step;
+cd $_;
 
 # determine runtime options
 if [ "$era" == "2016" ]; then
@@ -174,3 +179,8 @@ ls -lh;
 
 mv -v $fileOut $CWD;
 mv -v $fwFile $CWD;
+
+cd $CWD;
+if [ "$cleanup" == "true" ]; then
+  rm -rfv $current_step;
+fi

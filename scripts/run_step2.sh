@@ -5,12 +5,17 @@ set -x
 era=$1;
 cmssw_host=$(realpath -e $8);
 previous_step=$2;
-current_step=$3;
+cleanup=$3;
+current_step=$4;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
 echo "Home is: $HOME";
 echo "Host CMSSW: $cmssw_host";
+
+# go to a separate directory
+mkdir -pv $current_step;
+cd $_;
 
 # determine runtime options
 if [ "$era" == "2016" ]; then
@@ -118,3 +123,8 @@ ls -lh;
 
 mv -v $fileOut $CWD;
 mv -v $fwFile $CWD;
+
+cd $CWD;
+if [ "$cleanup" == "true" ]; then
+  rm -rfv $current_step;
+fi

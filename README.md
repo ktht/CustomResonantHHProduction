@@ -123,65 +123,34 @@ scram b -j8
 Run the jobs locally:
 
 ```bash
-# arguments: [prod|test] era spin [sl|dl] mass
+# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass
 
-submit_local.sh prod 2016 0 sl 280
-submit_local.sh prod 2016 0 sl 320
-submit_local.sh prod 2016 0 sl 750
-submit_local.sh prod 2016 0 sl 850
+submit_local.sh crab prod 2016 0 sl 280
+submit_local.sh crab prod 2016 0 sl 320
+submit_local.sh crab prod 2016 0 sl 750
+submit_local.sh crab prod 2016 0 sl 850
 
-submit_local.sh prod 2016 0 dl 250
-submit_local.sh prod 2016 0 dl 280
-submit_local.sh prod 2016 0 dl 320
-submit_local.sh prod 2016 0 dl 700
-submit_local.sh prod 2016 0 dl 850
+submit_local.sh crab prod 2016 0 dl 250
+submit_local.sh crab prod 2016 0 dl 280
+submit_local.sh crab prod 2016 0 dl 320
+submit_local.sh crab prod 2016 0 dl 700
+submit_local.sh crab prod 2016 0 dl 850
 
-submit_local.sh prod 2016 2 sl 280
-submit_local.sh prod 2016 2 sl 320
-submit_local.sh prod 2016 2 sl 750
-submit_local.sh prod 2016 2 sl 850
+submit_local.sh crab prod 2016 2 sl 280
+submit_local.sh crab prod 2016 2 sl 320
+submit_local.sh crab prod 2016 2 sl 750
+submit_local.sh crab prod 2016 2 sl 850
 
-submit_local.sh prod 2016 2 dl 250
-submit_local.sh prod 2016 2 dl 280
-submit_local.sh prod 2016 2 dl 320
-submit_local.sh prod 2016 2 dl 750
-submit_local.sh prod 2016 2 dl 850
+submit_local.sh crab prod 2016 2 dl 250
+submit_local.sh crab prod 2016 2 dl 280
+submit_local.sh crab prod 2016 2 dl 320
+submit_local.sh crab prod 2016 2 dl 750
+submit_local.sh crab prod 2016 2 dl 850
 
-submit_local.sh prod 2017 0 dl 300
-submit_local.sh prod 2017 0 dl 550
+submit_local.sh crab prod 2017 0 dl 300
+submit_local.sh crab prod 2017 0 dl 550
 
-submit_local.sh prod 2018 0 dl 450
+submit_local.sh crab prod 2018 0 dl 450
 ```
 
-Or run the on the grid:
-
-```bash
-# arguments: [prod|test] era spin [sl|dl] mass version
-
-submit_crab.sh prod 2016 0 sl 280 v0
-submit_crab.sh prod 2016 0 sl 320 v0
-submit_crab.sh prod 2016 0 sl 750 v0
-submit_crab.sh prod 2016 0 sl 850 v0
-
-submit_crab.sh prod 2016 0 dl 250 v0
-submit_crab.sh prod 2016 0 dl 280 v0
-submit_crab.sh prod 2016 0 dl 320 v0
-submit_crab.sh prod 2016 0 dl 700 v0
-submit_crab.sh prod 2016 0 dl 850 v0
-
-submit_crab.sh prod 2016 2 sl 280 v0
-submit_crab.sh prod 2016 2 sl 320 v0
-submit_crab.sh prod 2016 2 sl 750 v0
-submit_crab.sh prod 2016 2 sl 850 v0
-
-submit_crab.sh prod 2016 2 dl 250 v0
-submit_crab.sh prod 2016 2 dl 280 v0
-submit_crab.sh prod 2016 2 dl 320 v0
-submit_crab.sh prod 2016 2 dl 750 v0
-submit_crab.sh prod 2016 2 dl 850 v0
-
-submit_crab.sh prod 2017 0 dl 300 v0
-submit_crab.sh prod 2017 0 dl 550 v0
-
-submit_crab.sh prod 2018 0 dl 450 v0
-```
+When running locally, replace `crab` with `slurm` in the above commands.

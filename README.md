@@ -3,7 +3,6 @@
 ## TODO
 
 - adjust `run_job.sh` for running on /scratch (need more bind arguments)
-- compile the list of PU files before passing them to step1
 - dummy PSet
 
 ## Create missing gridpacks
@@ -93,6 +92,17 @@ Gridpack: `/cvmfs/cms.cern.ch/phys_generator/gridpacks/2017/13TeV/madgraph/V5_2.
 |  Global tag  |                                      `80X_mcRun2_asymptotic_2016_TrancheIV_v6`                                      |                                            `94X_mc2017_realistic_v11`                                           |                                          `102X_upgrade2018_realistic_v15`                                         |
 | Era          |                                                     `Run2_2016`                                                     |                                                   `Run2_2017`                                                   |                                                    `Run2_2018`                                                    |
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16DR80Premix-01408) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17DRPremix-03149) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18DRPremix-03081) |
+
+Pileup files obtained with:
+
+```bash
+# pileup_2016.txt
+dasgoclient -query="file dataset=/Neutrino_E-10_gun/RunIISpring15PrePremix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v2-v2/GEN-SIM-DIGI-RAW"
+# pileup_2017.txt
+dasgoclient -query="file dataset=/Neutrino_E-10_gun/RunIISummer17PrePremix-MCv2_correctPU_94X_mc2017_realistic_v9-v1/GEN-SIM-DIGI-RAW"
+# pileup_2018.txt
+dasgoclient -query="file dataset=/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAutumn18_102X_upgrade2018_realistic_v15-v1/GEN-SIM-DIGI-RAW"
+```
 
 |  MiniAODSIM  |                                                        2016                                                        |                                                       2017                                                       |                                                       2018                                                       |
 |:------------:|:------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|

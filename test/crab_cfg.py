@@ -39,7 +39,8 @@ if not os.path.isdir(CRAB_LOC):
   os.makedirs(CRAB_LOC)
 assert(os.path.isfile(PSET_LOC))
 
-PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC ] + [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(3) ]
+PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC, os.path.join(BASEDIR, 'extra', 'pu_{}.txt'.format(ERA)) ] + \
+          [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(3) ]
 for payload in PAYLOAD:
   assert(os.path.isfile(payload))
 

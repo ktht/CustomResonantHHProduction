@@ -1,6 +1,11 @@
 import FWCore.ParameterSet.Config as cms
 import os
 
+def debug(process, dumpFile):
+  with open(dumpFile, 'w') as dump:
+    dump.write(process.dumpPython())
+  return process
+
 def customize(process, seed, eventsPerLumi, gridpack, dumpFile):
   process.RandomNumberGeneratorService.externalLHEProducer.initialSeed = seed
   process.RandomNumberGeneratorService.generator.initialSeed = seed
@@ -12,7 +17,13 @@ def customize(process, seed, eventsPerLumi, gridpack, dumpFile):
   if gridpack.startswith('gsiftp://'):
     assert('DATASCRIPT_BASE' in os.environ)
     process.externalLHEProducer.scriptName = cms.FileInPath(os.environ['DATASCRIPT_BASE'])
-  if dumpFile:
-    with open(dumpFile, 'w') as dump:
-      dump.write(process.dumpPython())
+  process = debug(process, dumpFile)
+  return process
+
+def assignPU(process, pu_file):
+  pu_files = []
+  with open(pu_file, 'r') as pu_fptr:
+    for line in pu_fptr:
+      pu_files.append(line.strip())
+  process.mixData.input.fileNames = cms.untracked.vstring(pu_files)
   return process

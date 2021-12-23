@@ -27,7 +27,6 @@ if [ "$era" == "2016" ]; then
   ERA="Run2_2016";
   STEP_PMX="@frozen2016";
   STEP_AOD="RAW2DIGI,RECO,EI";
-  PILEUP="/Neutrino_E-10_gun/RunIISpring15PrePremix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v2-v2/GEN-SIM-DIGI-RAW";
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
 elif [ "$era" == "2017" ]; then
@@ -37,7 +36,6 @@ elif [ "$era" == "2017" ]; then
   ERA="Run2_2017";
   STEP_PMX="2e34v40";
   STEP_AOD="RAW2DIGI,RECO,RECOSIM,EI";
-  PILEUP="/Neutrino_E-10_gun/RunIISummer17PrePremix-MCv2_correctPU_94X_mc2017_realistic_v9-v1/GEN-SIM-DIGI-RAW";
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
 elif [ "$era" == "2018" ]; then
@@ -47,7 +45,6 @@ elif [ "$era" == "2018" ]; then
   ERA="Run2_2018";
   STEP_PMX="@relval2018";
   STEP_AOD="RAW2DIGI,L1Reco,RECO,RECOSIM,EI";
-  PILEUP="/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAutumn18_102X_upgrade2018_realistic_v15-v1/GEN-SIM-DIGI-RAW";
   EXTRA_ARGS_PMX="--procModifiers premix_stage2 --geometry DB:Extended";
   EXTRA_ARGS_AOD="--procModifiers premix_stage2";
 else
@@ -83,7 +80,7 @@ cp -v $CUSTOMIZATION_LOCATION $PYTHON_TARGET_DIR;
 scram b;
 
 CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
-CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import debug"
+CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import *;"
 
 # define the remaining invariant
 tmpStep="${current_step}.tmp";
@@ -114,10 +111,18 @@ CMSDRIVER_OPTS_PMX+=" --eventcontent PREMIXRAW";
 CMSDRIVER_OPTS_PMX+=" --datatier GEN-SIM-RAW";
 CMSDRIVER_OPTS_PMX+=" --filein file:$fileInTmp";
 CMSDRIVER_OPTS_PMX+=" --fileout file:$fileOutTmp";
-CMSDRIVER_OPTS_PMX+=" --pileup_input dbs:$pileup";
 CMSDRIVER_OPTS_PMX+=" --step DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,HLT:$STEP_PMX";
 CMSDRIVER_OPTS_PMX+="  --datamix PreMix";
-CMSDRIVER_OPTS_PMX+=" --customise_commands \"$CUSTOMIZATION;process=debug(process,'$dumpFileTmp');\"";
+
+pileup="$CWD/pileup_${ERA}.txt";
+if [ ! -f "$pileup" ]; then
+  echo "PU file missing: $pileup";
+  exit 1;
+fi;
+CUSTOMIZATION_PU="$CUSTOMIZATION";
+CUSTOMIZATION_PU+="process=debug(process,'$dumpFileTmp');";
+CUSTOMIZATION_PU+="assignPU(process,'$pileup');"
+CMSDRIVER_OPTS_PMX+=" --customise_commands \"${CUSTOMIZATION_PU}\"";
 
 if [ ! -z "$EXTRA_ARGS_PMX" ]; then
   CMSDRIVER_OPTS_PMX+=" $EXTRA_ARGS_PMX";

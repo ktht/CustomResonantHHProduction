@@ -66,6 +66,7 @@ config.JobType.scriptArgs              = [
   'mass={}'.format(MASS),
   'decayMode={}'.format(DECAY_MODE),
   'cleanup=true',
+  'cmsswVersion={}'.format(CMSSW_VERSION),
 ]
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.numCores                = 1

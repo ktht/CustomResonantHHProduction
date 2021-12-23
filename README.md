@@ -2,7 +2,6 @@
 
 ## TODO
 
-- adjust `run_job.sh` for running on /scratch (need more bind arguments)
 - dummy PSet
 
 ## Create missing gridpacks

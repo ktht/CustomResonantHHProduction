@@ -112,10 +112,16 @@ elif [ "$MODE" == "slurm" ]; then
   DIR_SUFFIX="$USER/CustomResonantHHProduction/$VERSION/$DATASET"
   LOG_DIR="/home/$DIR_SUFFIX";
   OUTPUT_DIR="/hdfs/local/$DIR_SUFFIX";
+  mkdir -pv $OUTPUT_DIR;
+  if [ "$MODE" == "test" ]; then
+    CLEANUP="false";
+  else
+    CLEANUP="true";
+  fi;
 
   for i in `seq 1 $NOF_JOBS`; do
     sbatch --partition=$SBATCH_QUEUE --output=$LOG_DIR/out_$i.log \
-      job_wrapper.sh $i $ERA $SPIN $DECAY_MODE $MASS $VERSION $NEVENTS $NEVENTS_PER_SAMPLE $OUTPUT_DIR;
+      job_wrapper.sh $i $NEVENTS_PER_SAMPLE $NEVENTS $ERA $SPIN $MASS $DECAY_MODE $CLEANUP $OUTPUT_DIR;
   done
 else
   # should never happen

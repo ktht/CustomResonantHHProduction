@@ -26,6 +26,10 @@ cmsswVersion_str=$(echo $cmsswVersion | sed 's/^cmsswVersion=//g');
 
 # use the same container (SLC6)
 image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;
+if [ ! -d $image ]; then
+  echo "Image $d does not exist";
+  exit 1;
+fi
 if [ -d "$cmsswVersion_str" ]; then
   # CMSSW has been packed into the sandbox, so it should be in cwd
   cmssw_host=$cmsswVersion_str;
@@ -33,7 +37,11 @@ if [ -d "$cmsswVersion_str" ]; then
 else
   # we're running locally or on the cluster
   cmssw_host=$CMSSW_BASE;
-  extra_bind="--bind /home";
+  if [[ ! $PWD =~ ^/home.*  ]]; then
+    extra_bind="--bind /home";
+  else
+    extra_bind="";
+  fi;
 fi;
 
 # copy necessary inputs to cwd that otherwise are added to the sandbox
@@ -44,7 +52,7 @@ for input_file in $input_files; do
   fi
 done;
 
-echo "Singularity image: $(ls $image)";
+echo "Singularity image: $image";
 echo "CMSSW host: $cmssw_host";
 
 ls -lh;
@@ -56,15 +64,15 @@ singularity run --home $PWD:/home/$USER --bind /cvmfs $extra_bind --contain --ip
 
 echo "Running PU premixing and AODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs $extra_bind --contain --ipc --pid $image \
-  ./run_step1.sh $era $cmssw_host step0 step1;
-if [ "$cleanup" == "true" ]; then
+  ./run_step1.sh $era_nr $cmssw_host $cleanup_str step0 step1;
+if [ "$cleanup_str" == "true" ]; then
   rm -fv step0.root;
 fi;
 
 echo "Running MiniAODSIM step (`date`)";
 singularity run --home $PWD:/home/$USER --bind /cvmfs $extra_bind --contain --ipc --pid $image \
-  ./run_step2.sh $era $cmssw_host step1 step2;
-if [ "$cleanup" == "true" ]; then
+  ./run_step2.sh $era_nr $cmssw_host $cleanup_str step1 step2;
+if [ "$cleanup_str" == "true" ]; then
   rm -fv step1.root;
 fi;
 

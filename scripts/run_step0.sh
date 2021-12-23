@@ -9,9 +9,9 @@ era=$4;
 spin=$5;
 mass=$6;
 decayMode=$7;
-cmssw_host=$(realpath -e $8);
+cmssw_host=$8;
 cleanup=$9;
-current_step=$10;
+current_step=${10};
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
@@ -46,6 +46,7 @@ if [ "$era" == "2016" ]; then
       # should never happen
       echo "Invalid spin: $spin";
       exit 1;
+    fi;
   fi;
   BEAMSPOT="Realistic50ns13TeVCollision";
   EXTRA_ARGS="--magField 38T_PostLS1";
@@ -183,4 +184,4 @@ mv -v $fwFile $CWD;
 cd $CWD;
 if [ "$cleanup" == "true" ]; then
   rm -rfv $current_step;
-fi
+fi;

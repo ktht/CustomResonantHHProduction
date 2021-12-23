@@ -5,10 +5,10 @@
 set -x
 
 era=$1;
-cmssw_host=$(realpath -e $8);
-previous_step=$2;
+cmssw_host=$2;
 cleanup=$3;
-current_step=$4;
+previous_step=$4;
+current_step=$5;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";

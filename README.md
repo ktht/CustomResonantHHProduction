@@ -1,5 +1,10 @@
 # Resonant HH production
 
+## TODO
+
+- abandon `singularity` as it does not comply with VOMS
+- use slc7 arch -- need some compromises
+
 ## Create missing gridpacks
 
 NB! Do the following in clean environment, no CMSSW:

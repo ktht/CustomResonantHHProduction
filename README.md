@@ -1,9 +1,5 @@
 # Resonant HH production
 
-## TODO
-
-- dummy PSet
-
 ## Create missing gridpacks
 
 NB! Do the following in clean environment, no CMSSW:

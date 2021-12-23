@@ -13,6 +13,11 @@ echo "Current working directory is: $CWD";
 echo "Home is: $HOME";
 echo "Host CMSSW: $cmssw_host";
 
+if [ ! -d "$cmssw_host" ]; then
+  echo "No such directory: $cmssw_host";
+  exit 1;
+fi
+
 # go to a separate directory
 mkdir -pv $current_step;
 cd $_;
@@ -60,16 +65,12 @@ CUSTOMIZATION_NAME="customize.py";
 
 REPO_DIR="Configuration/CustomResonantHHProduction";
 PYTHON_TARGET_DIR="${REPO_DIR}/python";
-
 CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
 
 mkdir -pv $PYTHON_TARGET_DIR;
 cp -v $CUSTOMIZATION_LOCATION $PYTHON_TARGET_DIR;
 
 scram b;
-
-CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
-CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import debug"
 
 # define the remaining invariant
 pset="${current_step}.py";
@@ -95,7 +96,6 @@ CMSDRIVER_OPTS+=" --no_exec";
 CMSDRIVER_OPTS+=" --mc";
 CMSDRIVER_OPTS+=" --runUnscheduled";
 CMSDRIVER_OPTS+=" -n -1";
-CMSDRIVER_OPTS+=" --customise_commands \"$CUSTOMIZATION;process=debug(process,'$dumpFile')\"";
 
 if [ ! -z "$EXTRA_CUSTOMS" ]; then
   CMSDRIVER_OPTS+=" --customise $EXTRA_CUSTOMS";
@@ -104,8 +104,12 @@ if [ ! -z "$EXTRA_ARGS" ]; then
   CMSDRIVER_OPTS+=" $EXTRA_ARGS";
 fi;
 
+CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
+CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import debug"
+CUSTOMIZATION+="$CUSTOMIZATION;process=debug(process,'$dumpFile');";
+
 # generate the cfg file
-cmsDriver.py $CMSDRIVER_OPTS;
+cmsDriver.py $CMSDRIVER_OPTS --customise_commands "$CUSTOMIZATION";
 
 # dump the parameter sets
 python $pset;

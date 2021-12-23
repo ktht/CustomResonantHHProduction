@@ -18,6 +18,11 @@ echo "Current working directory is: $CWD";
 echo "Home is: $HOME";
 echo "Host CMSSW: $cmssw_host";
 
+if [ ! -d "$cmssw_host" ]; then
+  echo "No such directory: $cmssw_host";
+  exit 1;
+fi
+
 # go to a separate directory
 mkdir -pv $current_step;
 cd $_;
@@ -115,7 +120,8 @@ REPO_DIR="Configuration/CustomResonantHHProduction";
 PYTHON_TARGET_DIR="${REPO_DIR}/python";
 DATA_TARGET_DIR="${REPO_DIR}/data";
 
-FRAGMENT_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
+FRAGMENT_BASE="$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
+FRAGMENT_LOCATION="$cmssw_host/src/$FRAGMENT_BASE";
 CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
 export DATASCRIPT_BASE="$DATA_TARGET_DIR/run_generic_tarball_gfal.sh";
 DATSCRIPT_LOCATION="$cmssw_host/src/$DATASCRIPT_BASE";
@@ -128,17 +134,13 @@ cp -v $DATSCRIPT_LOCATION $DATA_TARGET_DIR;
 
 scram b;
 
-CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
-CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import customize;"
-CUSTOMIZATION+="process=customize(process,$jobId,$eventsPerLumi,'$GRIDPACK','$dumpFile');"
-
 # define the remaining invariant
 pset="${current_step}.py";
 dumpFile="${current_step}.log";
 fileOut="${current_step}.root";
 fwFile="FrameworkJobReport.${current_step}.xml";
 
-CMSDRIVER_OPTS="$FRAGMENT_LOCATION";
+CMSDRIVER_OPTS="$FRAGMENT_BASE";
 CMSDRIVER_OPTS+=" --python_filename $pset";
 CMSDRIVER_OPTS+=" --eventcontent RAWSIM,LHE";
 CMSDRIVER_OPTS+=" --datatier GEN-SIM,LHE";
@@ -149,7 +151,6 @@ CMSDRIVER_OPTS+=" --step LHE,GEN,SIM";
 CMSDRIVER_OPTS+=" --no_exec";
 CMSDRIVER_OPTS+=" --mc";
 CMSDRIVER_OPTS+=" -n $nEvents";
-CMSDRIVER_OPTS+=" --customise_commands \"$CUSTOMIZATION\"";
 
 if [ ! -z "$ERA" ]; then
   CMSDRIVER_OPTS+=" --era=$ERA";
@@ -161,8 +162,12 @@ if [ ! -z "$EXTRA_ARGS" ]; then
   CMSDRIVER_OPTS+=" $EXTRA_ARGS";
 fi;
 
+CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
+CUSTOMIZATION="from $CUSTOMIZATION_MODULE.${CUSTOMIZATION_NAME%%.*} import customize;";
+CUSTOMIZATION+="process=customize(process,$jobId,$eventsPerLumi,'$GRIDPACK','$dumpFile');";
+
 # generate the cfg file
-cmsDriver.py $CMSDRIVER_OPTS;
+cmsDriver.py $CMSDRIVER_OPTS --customise_commands "$CUSTOMIZATION";
 
 # dump the parameter sets
 python $pset;

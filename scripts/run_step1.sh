@@ -15,6 +15,11 @@ echo "Current working directory is: $CWD";
 echo "Home is: $HOME";
 echo "Host CMSSW: $cmssw_host";
 
+if [ ! -d "$cmssw_host" ]; then
+  echo "No such directory: $cmssw_host";
+  exit 1;
+fi
+
 # go to a separate directory
 mkdir -pv $current_step;
 cd $_;
@@ -114,29 +119,29 @@ CMSDRIVER_OPTS_PMX+=" --fileout file:$fileOutTmp";
 CMSDRIVER_OPTS_PMX+=" --step DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,HLT:$STEP_PMX";
 CMSDRIVER_OPTS_PMX+="  --datamix PreMix";
 
-pileup="$CWD/pileup_${ERA}.txt";
+pileup="$CWD/pu_${era}.txt";
 if [ ! -f "$pileup" ]; then
   echo "PU file missing: $pileup";
   exit 1;
 fi;
-CUSTOMIZATION_PU="$CUSTOMIZATION";
-CUSTOMIZATION_PU+="process=debug(process,'$dumpFileTmp');";
-CUSTOMIZATION_PU+="assignPU(process,'$pileup');"
-CMSDRIVER_OPTS_PMX+=" --customise_commands \"${CUSTOMIZATION_PU}\"";
 
 if [ ! -z "$EXTRA_ARGS_PMX" ]; then
   CMSDRIVER_OPTS_PMX+=" $EXTRA_ARGS_PMX";
 fi
 
+CUSTOMIZATION_PU="$CUSTOMIZATION";
+CUSTOMIZATION_PU+="process=debug(process,'$dumpFileTmp');";
+CUSTOMIZATION_PU+="assignPU(process,'$pileup');";
+
 # generate the cfg file
-cmsDriver.py $CMSDRIVER_OPTS_PMX;
+cmsDriver.py $CMSDRIVER_OPTS_PMX --customise_commands "$CUSTOMIZATION_PU";
 
 # dump the parameter sets
-python $pset;
-if [ -f $dumpFile ]; then
-  cat $dumpFile;
+python $psetTmp;
+if [ -f $dumpFileTmp ]; then
+  cat $dumpFileTmp;
 else
-  echo "File $dumpFile does not exist!";
+  echo "File $dumpFileTmp does not exist!";
 fi;
 
 # run the job
@@ -158,18 +163,21 @@ fileOut="${current_step}.root";
 fwFile="FrameworkJobReport.${current_step}.xml";
 
 CMSDRIVER_OPTS_AOD=$CMSDRIVER_OPTS_COMMON;
-CMSDRIVER_OPTS_AOD+=" --python_filename $pset";
+CMSDRIVER_OPTS_AOD+=" --python_filename $psetFinal";
 CMSDRIVER_OPTS_AOD+=" --eventcontent AODSIM";
 CMSDRIVER_OPTS_AOD+=" --datatier AODSIM";
 CMSDRIVER_OPTS_AOD+=" --filein file:$fileOutTmp";
 CMSDRIVER_OPTS_AOD+=" --fileout file:$fileOut";
 CMSDRIVER_OPTS_AOD+=" --step $STEP_AOD";
 CMSDRIVER_OPTS_AOD+=" --runUnscheduled";
-CMSDRIVER_OPTS_AOD+=" --customise_commands \"$CUSTOMIZATION;process=debug(process,'$dumpFileFinal');\"";
 
 if [ ! -z "$EXTRA_ARGS_AOD" ]; then
   CMSDRIVER_OPTS_AOD+=" $EXTRA_ARGS_AOD";
 fi;
+
+CUSTOMIZATION_AOD="$CUSTOMIZATION;process=debug(process,'$dumpFileFinal');"
+
+cmsDriver.py $CMSDRIVER_OPTS_AOD --customise_commands "$CUSTOMIZATION_AOD";
 
 # dump the parameter sets
 python $psetFinal;

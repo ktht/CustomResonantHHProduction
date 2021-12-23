@@ -34,13 +34,16 @@ if [ -d "$cmsswVersion_str" ]; then
   # CMSSW has been packed into the sandbox, so it should be in cwd
   cmssw_host=$cmsswVersion_str;
   extra_bind="";
+  pwd_target=/srv;
 else
   # we're running locally or on the cluster
   cmssw_host=$CMSSW_BASE;
   if [[ ! $PWD =~ ^/home.*  ]]; then
     extra_bind="--bind /home";
+    pwd_target=$HOME;
   else
     extra_bind="";
+    pwd_target=$PWD;
   fi;
 fi;
 
@@ -58,23 +61,36 @@ echo "CMSSW host: $cmssw_host";
 ls -lh;
 
 echo "Running LHE and GEN+SIM step (`date`)";
-singularity run --home $PWD:/home/$USER --bind /cvmfs $extra_bind --contain --ipc --pid $image \
+singularity run --home $PWD:$pwd_target --bind /cvmfs $extra_bind --contain --ipc --pid $image \
   ./run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr  \
                  $decayMode_str $cmssw_host $cleanup_str step0;
+if [ ! -f step0.root ]; then
+  echo "No output file was produced at step 0 -> exiting";
+  exit 1;
+fi
+
 
 echo "Running PU premixing and AODSIM step (`date`)";
-singularity run --home $PWD:/home/$USER --bind /cvmfs $extra_bind --contain --ipc --pid $image \
+singularity run --home $PWD:$pwd_target --bind /cvmfs $extra_bind --contain --ipc --pid $image \
   ./run_step1.sh $era_nr $cmssw_host $cleanup_str step0 step1;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step0.root;
 fi;
+if [ ! -f step1.root ]; then
+  echo "No output file was produced at step 1 -> exiting";
+  exit 1;
+fi
 
 echo "Running MiniAODSIM step (`date`)";
-singularity run --home $PWD:/home/$USER --bind /cvmfs $extra_bind --contain --ipc --pid $image \
+singularity run --home $PWD:$pwd_target --bind /cvmfs $extra_bind --contain --ipc --pid $image \
   ./run_step2.sh $era_nr $cmssw_host $cleanup_str step1 step2;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step1.root;
 fi;
+if [ ! -f step2.root ]; then
+  echo "No output file was produced at step 2 -> exiting";
+  exit 1;
+fi
 
 mv -v step2.root mini.root
 echo "All done (`date`)";

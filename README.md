@@ -152,7 +152,7 @@ voms-proxy-init -voms cms -valid 192:00 --out $PWD/voms_proxy.txt
 export X509_USER_PROXY=$PWD/voms_proxy.txt
 ```
 
-Run the jobs locally:
+Run the jobs on the grid:
 
 ```bash
 # arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass

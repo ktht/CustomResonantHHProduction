@@ -96,7 +96,7 @@ else
   exit 1;
 fi;
 
-NOF_JOBS=$(python -c "import math; print(int(math.ceil(float($NEVENTS) / $NEVENTS_PER_SAMPLE)))");
+NOF_JOBS=$(python -c "import math; print(int(math.ceil(float($NEVENTS) / $NEVENTS_PER_JOB)))");
 echo "Submitting jobs with the following parameters:"
 echo "Number of events:         $NEVENTS";
 echo "Number of events per job: $NEVENTS_PER_JOB";
@@ -129,7 +129,7 @@ elif [ "$METHOD" == "slurm" ]; then
 
   for i in `seq 1 $NOF_JOBS`; do
     sbatch --partition=$SBATCH_QUEUE --output=$LOG_DIR/out_$i.log --mem=2500M \
-      job_wrapper.sh $i $NEVENTS_PER_SAMPLE $NEVENTS $ERA $SPIN $MASS \
+      job_wrapper.sh $i $NEVENTS_PER_JOB $NEVENTS $ERA $SPIN $MASS \
                         $DECAY_MODE $CLEANUP $OUTPUT_DIR $RUN_NANO;
   done
 else

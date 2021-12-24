@@ -144,6 +144,14 @@ git clone https://github.com/ktht/CustomResonantHHProduction.git Configuration/C
 scram b -j8
 ```
 
+Create grid proxy when running locally:
+```bash
+# non-standard proxy certificate necessary when running on SLURM
+# because /tmp between host and comp nodes is not the same
+voms-proxy-init -voms cms -valid 192:00 --out $PWD/voms_proxy.txt
+export X509_USER_PROXY=$PWD/voms_proxy.txt
+```
+
 Run the jobs locally:
 
 ```bash

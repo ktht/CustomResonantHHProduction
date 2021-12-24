@@ -16,7 +16,8 @@ def get_env_var(env_var, fail_if_not_exists = True, test_type = None):
       return ''
   env_val = os.environ[env_var]
   if test_type != None:
-    assert(test_type(env_val))
+    if not test_type(env_val):
+      raise RuntimeError("Got invalid type for variable: %s" % env_var)
   return env_val
 
 NEVENTS_PER_JOB = get_env_var('NEVENTS_PER_JOB', test_type = test_positive_int)
@@ -28,20 +29,21 @@ MASS            = get_env_var('MASS')
 VERSION         = get_env_var('VERSION')
 PUBLISH         = get_env_var('PUBLISH')
 CMSSW_VERSION   = get_env_var('CMSSW_VERSION')
+CMSSW_BASE      = get_env_var('CMSSW_BASE')
 RUN_NANO        = get_env_var('RUN_NANO')
 
-assert(RUN_NANO != "yes")
+if RUN_NANO == "yes":
+  raise RuntimeError("Running NanoAOD step enabled")
 pset_suffix = "mini" if RUN_NANO != "yes" else "nano"
 
 TODAY         = datetime.date.today().strftime("%Y%b%d")
-BASEDIR       = os.path.join(CMSSW_VERSION, 'src/Configuration/CustomResonantHHProduction')
+BASEDIR       = os.path.join(CMSSW_BASE, 'src/Configuration/CustomResonantHHProduction')
 PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset_{}.py'.format(pset_suffix))
 SCRIPTEXE_LOC = os.path.join(BASEDIR, 'scripts', 'run_job.sh')
 CRAB_LOC      = os.path.join(os.path.expanduser('~'), 'crab_projects')
 
 if not os.path.isdir(CRAB_LOC):
   os.makedirs(CRAB_LOC)
-assert(os.path.isfile(PSET_LOC))
 
 last_step = 2
 if RUN_NANO == "yes":
@@ -49,7 +51,8 @@ if RUN_NANO == "yes":
 PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC, os.path.join(BASEDIR, 'extra', 'pu_{}.txt'.format(ERA)) ] + \
           [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(last_step + 1) ]
 for payload in PAYLOAD:
-  assert(os.path.isfile(payload))
+  if not os.path.isfile(payload):
+    raise RuntimeError("No such file: %s" % payload)
 
 DATASET      = get_dataset_name(SPIN, DECAY_MODE, MASS)
 ID           = '{}_{}_{}'.format(TODAY, DATASET, VERSION)

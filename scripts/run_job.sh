@@ -32,20 +32,16 @@ if [ ! -d $image ]; then
   echo "Image $d does not exist";
   exit 1;
 fi
+
+extra_bind="";
 if [ -d "$cmsswVersion_str" ]; then
   # CMSSW has been packed into the sandbox, so it should be in cwd
   cmssw_host=$cmsswVersion_str;
-  extra_bind="";
-  pwd_target=/srv;
 else
   # we're running locally or on the cluster
   cmssw_host=$CMSSW_BASE;
   if [[ ! $PWD =~ ^/home.*  ]]; then
     extra_bind="--bind /home";
-    pwd_target=$HOME;
-  else
-    extra_bind="";
-    pwd_target=$PWD;
   fi;
 fi;
 
@@ -66,7 +62,7 @@ echo "CMSSW host: $cmssw_host";
 ls -lh;
 
 echo "Running LHE and GEN+SIM step (`date`)";
-singularity run --home $PWD:$pwd_target --bind /cvmfs $extra_bind --contain --ipc --pid $image \
+singularity run --home $PWD --bind /cvmfs $extra_bind --contain --ipc --pid $image \
   ./run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr  \
                  $decayMode_str $cmssw_host $cleanup_str step0;
 if [ ! -f step0.root ]; then

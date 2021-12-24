@@ -78,7 +78,7 @@ config.JobType.maxMemoryMB             = 2500
 config.JobType.eventsPerLumi           = int(NEVENTS_PER_JOB)
 config.JobType.inputFiles              = PAYLOAD
 config.JobType.sendPythonFolder        = True
-config.JobType.outputFiles             = [ '{}.root'.format(outputName) ]
+config.JobType.outputFiles             = [ 'mini.root' ]
 
 config.Site.storageSite          = 'T2_EE_Estonia'
 config.Data.outputPrimaryDataset = DATASET

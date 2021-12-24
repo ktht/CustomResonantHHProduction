@@ -99,6 +99,4 @@ else:
 fi;
 echo "All done (`date`)";
 
-cat FrameworkJobReport.*.xml > FrameworkJobReport.xml;
-
 ls -lh;

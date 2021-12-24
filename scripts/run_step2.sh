@@ -81,7 +81,7 @@ if [ ! -f $fileIn ]; then
   exit 1;
 fi;
 fileOut="${current_step}.root";
-fwFile="FrameworkJobReport.${current_step}.xml";
+fwFile="FrameworkJobReport.xml";
 
 CMSDRIVER_OPTS="$FRAGMENT_LOCATION";
 CMSDRIVER_OPTS+=" --python_filename $pset";

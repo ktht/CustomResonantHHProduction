@@ -96,7 +96,7 @@ if [ ! -f $fileInTmp ]; then
   exit 1;
 fi;
 fileOutTmp="${tmpStep}.root";
-fwFileTmp="FrameworkJobReport.${tmpStep}.xml";
+fwFileTmp="FrameworkJobReport.xml";
 
 CMSDRIVER_OPTS_COMMON="";
 CMSDRIVER_OPTS_COMMON+=" --conditions $GLOBAL_TAG";
@@ -159,7 +159,7 @@ mv -v $fwFileTmp $CWD;
 psetFinal="${current_step}.py";
 dumpFileFinal="${current_step}.log";
 fileOut="${current_step}.root";
-fwFile="FrameworkJobReport.${current_step}.xml";
+fwFile="FrameworkJobReport.xml";
 
 CMSDRIVER_OPTS_AOD=$CMSDRIVER_OPTS_COMMON;
 CMSDRIVER_OPTS_AOD+=" --python_filename $psetFinal";

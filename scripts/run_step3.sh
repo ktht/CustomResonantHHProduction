@@ -36,7 +36,7 @@ eval `scram runtime -sh`; # cmsenv
 
 cd $CWD;
 
-fwFile="FrameworkJobReport.${current_step}.xml";
+fwFile="FrameworkJobReport.xml";
 pset="${current_step}.py";
 inputFile="${previous_step}.root";
 outputFile="${current_step}.root";

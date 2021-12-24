@@ -138,7 +138,7 @@ scram b;
 pset="${current_step}.py";
 dumpFile="${current_step}.log";
 fileOut="${current_step}.root";
-fwFile="FrameworkJobReport.${current_step}.xml";
+fwFile="FrameworkJobReport.xml";
 
 CMSDRIVER_OPTS="$FRAGMENT_BASE";
 CMSDRIVER_OPTS+=" --python_filename $pset";

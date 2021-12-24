@@ -30,8 +30,8 @@ PUBLISH         = get_env_var('PUBLISH')
 CMSSW_VERSION   = get_env_var('CMSSW_VERSION')
 RUN_NANO        = get_env_var('RUN_NANO')
 
-assert(RUN_NANO == "no")
-pset_suffix = "mini" if RUN_NANO == "no" else "nano"
+assert(RUN_NANO != "yes")
+pset_suffix = "mini" if RUN_NANO != "yes" else "nano"
 
 TODAY         = datetime.date.today().strftime("%Y%b%d")
 BASEDIR       = os.path.join(CMSSW_VERSION, 'src/Configuration/CustomResonantHHProduction')

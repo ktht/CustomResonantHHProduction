@@ -24,7 +24,7 @@ mass_nr=$(echo $mass | sed 's/^mass=//g');
 decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
 cleanup_str=$(echo $cleanup | sed 's/^cleanup=//g');
 cmsswVersion_str=$(echo $cmsswVersion | sed 's/^cmsswVersion=//g');
-runNano_str=$(echo $cmsswVersion | sed 's/^runNano=//g');
+runNano_str=$(echo $runNano | sed 's/^runNano=//g');
 
 # use the same container (SLC6)
 image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;

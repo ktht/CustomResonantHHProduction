@@ -21,6 +21,10 @@ export MASS=$6;
 export VERSION=$7;
 export RUN_NANO=$8;
 
+if [ -z "$RUN_NANO" ]; then
+  export RUN_NANO="no";
+fi;
+
 echo "Received the following parameters:"
 echo "  submit to  = $METHOD";
 echo "  mode       = $MODE";

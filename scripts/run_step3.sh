@@ -6,9 +6,15 @@ set -x;
 
 era=$1;
 cmssw_host=$2;
-slc_str=$3;
+method=$3;
 previous_step=$4;
 current_step=$5;
+
+if [ "$method" != "crab" ]; then
+  slc_str="slc7";
+else
+  slc_str="slc6";
+fi;
 
 CWD=$PWD;
 

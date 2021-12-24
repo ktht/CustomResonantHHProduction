@@ -61,29 +61,27 @@ if [ "$method_str" != "crab" ]; then
   fi;
   echo "Singularity image: $image";
   wrapper_cmd="singularity run --home $PWD --bind /cvmfs $extra_bind --contain --ipc --pid $image";
-  slc_str="slc7";
 else
   wrapper_cmd="";
-  slc_str="slc6";
 fi;
 
 ls -lh;
 
 echo "Running LHE and GEN+SIM step (`date`)";
  $wrapper_cmd ./run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr  \
-                             $decayMode_str $cmssw_host $cleanup_str step0;
+                             $decayMode_str $cmssw_host $cleanup_str $method_str step0;
 exit_code=$?;
 if [ ! -f step0.root ]; then
   echo "No output file was produced at step 0 -> exiting";
   exit 1;
-fi
+fi;
 if [[ $exit_code -ne 0 ]]; then
   exit $exit_code;
 fi;
 
 
 echo "Running PU premixing and AODSIM step (`date`)";
-./run_step1.sh $jobId $era_nr $cmssw_host $cleanup_str $slc_str step0 step1;
+./run_step1.sh $jobId $era_nr $cmssw_host $cleanup_str $method_str step0 step1;
 exit_code=$?;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step0.root;
@@ -91,13 +89,13 @@ fi;
 if [ ! -f step1.root ]; then
   echo "No output file was produced at step 1 -> exiting";
   exit 1;
-fi
+fi;
 if [[ $exit_code -ne 0 ]]; then
   exit $exit_code;
 fi;
 
 echo "Running MiniAODSIM step (`date`)";
-./run_step2.sh $era_nr $cmssw_host $cleanup_str $slc_str step1 step2;
+./run_step2.sh $era_nr $cmssw_host $cleanup_str $method_str step1 step2;
 exit_code=$?;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step1.root;
@@ -105,13 +103,13 @@ fi;
 if [ ! -f step2.root ]; then
   echo "No output file was produced at step 2 -> exiting";
   exit 1;
-fi
+fi;
 if [[ $exit_code -ne 0 ]]; then
   exit $exit_code;
 fi;
 
 if [ "$runNano_str" == "yes" ]; then
-  ./run_step3.sh $era_nr $cmssw_host $slc_str step2 step3;
+  ./run_step3.sh $era_nr $cmssw_host $method_str step2 step3;
   exit_code=$?;
   mv -v step3.root tree.root;
 else:

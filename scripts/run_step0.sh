@@ -11,7 +11,14 @@ mass=$6;
 decayMode=$7;
 cmssw_host=$8;
 cleanup=$9;
-current_step=${10};
+method=${10};
+current_step=${11};
+
+if [ "$method" != "crab" ]; then
+  slc_str="slc7";
+else
+  slc_str="slc6";
+fi;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
@@ -121,8 +128,13 @@ PYTHON_TARGET_DIR="${REPO_DIR}/python";
 DATA_TARGET_DIR="${REPO_DIR}/data";
 
 FRAGMENT_BASE="$PYTHON_TARGET_DIR/$FRAGMENT_NAME";
-FRAGMENT_LOCATION="$cmssw_host/src/$FRAGMENT_BASE";
-CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
+if [ "$method" != "crab" ]; then
+  FRAGMENT_LOCATION="$cmssw_host/src/$FRAGMENT_BASE";
+  CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
+else
+  FRAGMENT_LOCATION="$cmssw_host/python/$REPO_DIR/$FRAGMENT_NAME";
+  CUSTOMIZATION_LOCATION="$cmssw_host/python/$REPO_DIR/$CUSTOMIZATION_NAME";
+fi;
 export DATASCRIPT_BASE="$DATA_TARGET_DIR/run_generic_tarball_gfal.sh";
 DATSCRIPT_LOCATION="$cmssw_host/src/$DATASCRIPT_BASE";
 

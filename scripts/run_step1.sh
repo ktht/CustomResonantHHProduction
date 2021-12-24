@@ -6,9 +6,15 @@ jobId=$1;
 era=$2;
 cmssw_host=$3;
 cleanup=$4;
-slc_str=$5;
+method=$5;
 previous_step=$6;
 current_step=$7;
+
+if [ "$method" != "crab" ]; then
+  slc_str="slc7";
+else
+  slc_str="slc6";
+fi;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
@@ -77,7 +83,11 @@ CUSTOMIZATION_NAME="customize.py";
 REPO_DIR="Configuration/CustomResonantHHProduction";
 PYTHON_TARGET_DIR="${REPO_DIR}/python";
 
-CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
+if [ "$method" != "crab" ]; then
+  CUSTOMIZATION_LOCATION="$cmssw_host/src/$PYTHON_TARGET_DIR/$CUSTOMIZATION_NAME";
+else
+  CUSTOMIZATION_LOCATION="$cmssw_host/python/$REPO_DIR/$CUSTOMIZATION_NAME";
+fi;
 
 mkdir -pv $PYTHON_TARGET_DIR;
 cp -v $CUSTOMIZATION_LOCATION $PYTHON_TARGET_DIR;

@@ -9,9 +9,7 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 # Input source
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring(),
-    secondaryFileNames = cms.untracked.vstring()
+process.source = cms.Source("EmptySource",
 )
 
 # Output definition

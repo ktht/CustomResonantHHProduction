@@ -87,6 +87,9 @@ if [ "$METHOD" == "crab" ]; then
   if [ ! -z "$DRYRUN" ]; then
     DRYRUN="--dryrun";
   fi
+
+  export CRAB_STATUS_DIR="$HOME/crab_projects";
+  mkdir -pv $CRAB_STATUS_DIR;
 elif [ "$METHOD" == "slurm" ]; then
   if [ -z "$SBATCH_QUEUE" ]; then
     SBATCH_QUEUE=main;

@@ -31,6 +31,7 @@ PUBLISH         = get_env_var('PUBLISH')
 CMSSW_VERSION   = get_env_var('CMSSW_VERSION')
 CMSSW_BASE      = get_env_var('CMSSW_BASE')
 RUN_NANO        = get_env_var('RUN_NANO')
+CRAB_STATUS_DIR = get_env_var('CRAB_STATUS_DIR')
 
 if RUN_NANO == "yes":
   raise RuntimeError("Running NanoAOD step enabled")
@@ -40,10 +41,9 @@ TODAY         = datetime.date.today().strftime("%Y%b%d")
 BASEDIR       = os.path.join(CMSSW_BASE, 'src/Configuration/CustomResonantHHProduction')
 PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset_{}.py'.format(pset_suffix))
 SCRIPTEXE_LOC = os.path.join(BASEDIR, 'scripts', 'run_job.sh')
-CRAB_LOC      = os.path.join(os.path.expanduser('~'), 'crab_projects')
 
-if not os.path.isdir(CRAB_LOC):
-  os.makedirs(CRAB_LOC)
+if not os.path.isdir(CRAB_STATUS_DIR):
+  os.makedirs(CRAB_STATUS_DIR)
 
 last_step = 2
 if RUN_NANO == "yes":
@@ -61,7 +61,7 @@ crabUserName = getUsernameFromCRIC()
 config = config()
 
 config.General.requestName     = ID
-config.General.workArea        = CRAB_LOC
+config.General.workArea        = CRAB_STATUS_DIR
 config.General.transferOutputs = True
 config.General.transferLogs    = True
 

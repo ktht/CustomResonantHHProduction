@@ -30,8 +30,8 @@ method_str=$(echo $method | sed 's/^method=//g');
 
 extra_bind="";
 if [ -d "$cmsswVersion_str" ]; then
-  # CMSSW has been packed into the sandbox, so it should be in cwd
-  cmssw_host=$cmsswVersion_str;
+  # CMSSW has been packed into the sandbox, so it should be in cwd (full path)
+  cmssw_host=$PWD/$cmsswVersion_str;
 else
   # we're running locally or on the cluster
   cmssw_host=$CMSSW_BASE;

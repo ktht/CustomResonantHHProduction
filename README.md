@@ -162,34 +162,34 @@ export X509_USER_PROXY=$PWD/voms_proxy.txt
 Run jobs on the cluster:
 
 ```bash
-# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass ([yes|no] -- optional)
+# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass [version] ([yes|no] -- optional)
 
-submit_jobs.sh slurm prod 2016 0 sl 280
-submit_jobs.sh slurm prod 2016 0 sl 320
-submit_jobs.sh slurm prod 2016 0 sl 750
-submit_jobs.sh slurm prod 2016 0 sl 850
+submit_jobs.sh slurm prod 2016 0 sl 280 v0
+submit_jobs.sh slurm prod 2016 0 sl 320 v0
+submit_jobs.sh slurm prod 2016 0 sl 750 v0
+submit_jobs.sh slurm prod 2016 0 sl 850 v0
 
-submit_jobs.sh slurm prod 2016 0 dl 250
-submit_jobs.sh slurm prod 2016 0 dl 280
-submit_jobs.sh slurm prod 2016 0 dl 320
-submit_jobs.sh slurm prod 2016 0 dl 700
-submit_jobs.sh slurm prod 2016 0 dl 850
+submit_jobs.sh slurm prod 2016 0 dl 250 v0
+submit_jobs.sh slurm prod 2016 0 dl 280 v0
+submit_jobs.sh slurm prod 2016 0 dl 320 v0
+submit_jobs.sh slurm prod 2016 0 dl 700 v0
+submit_jobs.sh slurm prod 2016 0 dl 850 v0
 
-submit_jobs.sh slurm prod 2016 2 sl 280
-submit_jobs.sh slurm prod 2016 2 sl 320
-submit_jobs.sh slurm prod 2016 2 sl 750
-submit_jobs.sh slurm prod 2016 2 sl 850
+submit_jobs.sh slurm prod 2016 2 sl 280 v0
+submit_jobs.sh slurm prod 2016 2 sl 320 v0
+submit_jobs.sh slurm prod 2016 2 sl 750 v0
+submit_jobs.sh slurm prod 2016 2 sl 850 v0
 
-submit_jobs.sh slurm prod 2016 2 dl 250
-submit_jobs.sh slurm prod 2016 2 dl 280
-submit_jobs.sh slurm prod 2016 2 dl 320
-submit_jobs.sh slurm prod 2016 2 dl 750
-submit_jobs.sh slurm prod 2016 2 dl 850
+submit_jobs.sh slurm prod 2016 2 dl 250 v0
+submit_jobs.sh slurm prod 2016 2 dl 280 v0
+submit_jobs.sh slurm prod 2016 2 dl 320 v0
+submit_jobs.sh slurm prod 2016 2 dl 750 v0
+submit_jobs.sh slurm prod 2016 2 dl 850 v0
 
-submit_jobs.sh slurm prod 2017 0 dl 300
-submit_jobs.sh slurm prod 2017 0 dl 550
+submit_jobs.sh slurm prod 2017 0 dl 300 v0
+submit_jobs.sh slurm prod 2017 0 dl 550 v0
 
-submit_jobs.sh slurm prod 2018 0 dl 450
+submit_jobs.sh slurm prod 2018 0 dl 450 v0
 ```
 
 ### CRAB submission
@@ -238,32 +238,32 @@ export X509_USER_PROXY=$PWD/voms_proxy.txt # define the same variable in singula
 Finally, submit the jobs:
 
 ```bash
-# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass ([yes|no] -- optional)
+# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass [version] ([yes|no] -- optional)
 
-submit_jobs.sh crab prod 2016 0 sl 280
-submit_jobs.sh crab prod 2016 0 sl 320
-submit_jobs.sh crab prod 2016 0 sl 750
-submit_jobs.sh crab prod 2016 0 sl 850
+submit_jobs.sh crab prod 2016 0 sl 280 v0
+submit_jobs.sh crab prod 2016 0 sl 320 v0
+submit_jobs.sh crab prod 2016 0 sl 750 v0
+submit_jobs.sh crab prod 2016 0 sl 850 v0
 
-submit_jobs.sh crab prod 2016 0 dl 250
-submit_jobs.sh crab prod 2016 0 dl 280
-submit_jobs.sh crab prod 2016 0 dl 320
-submit_jobs.sh crab prod 2016 0 dl 700
-submit_jobs.sh crab prod 2016 0 dl 850
+submit_jobs.sh crab prod 2016 0 dl 250 v0
+submit_jobs.sh crab prod 2016 0 dl 280 v0
+submit_jobs.sh crab prod 2016 0 dl 320 v0
+submit_jobs.sh crab prod 2016 0 dl 700 v0
+submit_jobs.sh crab prod 2016 0 dl 850 v0
 
-submit_jobs.sh crab prod 2016 2 sl 280
-submit_jobs.sh crab prod 2016 2 sl 320
-submit_jobs.sh crab prod 2016 2 sl 750
-submit_jobs.sh crab prod 2016 2 sl 850
+submit_jobs.sh crab prod 2016 2 sl 280 v0
+submit_jobs.sh crab prod 2016 2 sl 320 v0
+submit_jobs.sh crab prod 2016 2 sl 750 v0
+submit_jobs.sh crab prod 2016 2 sl 850 v0
 
-submit_jobs.sh crab prod 2016 2 dl 250
-submit_jobs.sh crab prod 2016 2 dl 280
-submit_jobs.sh crab prod 2016 2 dl 320
-submit_jobs.sh crab prod 2016 2 dl 750
-submit_jobs.sh crab prod 2016 2 dl 850
+submit_jobs.sh crab prod 2016 2 dl 250 v0
+submit_jobs.sh crab prod 2016 2 dl 280 v0
+submit_jobs.sh crab prod 2016 2 dl 320 v0
+submit_jobs.sh crab prod 2016 2 dl 750 v0
+submit_jobs.sh crab prod 2016 2 dl 850 v0
 
-submit_jobs.sh crab prod 2017 0 dl 300
-submit_jobs.sh crab prod 2017 0 dl 550
+submit_jobs.sh crab prod 2017 0 dl 300 v0
+submit_jobs.sh crab prod 2017 0 dl 550 v0
 
-submit_jobs.sh crab prod 2018 0 dl 450
+submit_jobs.sh crab prod 2018 0 dl 450 v0
 ```

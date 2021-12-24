@@ -121,6 +121,7 @@ elif [ "$METHOD" == "slurm" ]; then
   LOG_DIR="/home/$DIR_SUFFIX";
   OUTPUT_DIR="/hdfs/local/$DIR_SUFFIX";
   mkdir -pv $OUTPUT_DIR;
+  mkdir -pv $LOG_DIR;
   if [ "$MODE" == "test" ]; then
     CLEANUP="false";
   else

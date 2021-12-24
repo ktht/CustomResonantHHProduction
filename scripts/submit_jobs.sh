@@ -87,7 +87,7 @@ if [ "$METHOD" == "crab" ]; then
   if [ ! -z "$DRYRUN" ]; then
     DRYRUN="--dryrun";
   fi
-elif [ "$MODE" == "slurm" ]; then
+elif [ "$METHOD" == "slurm" ]; then
   if [ -z "$SBATCH_QUEUE" ]; then
     SBATCH_QUEUE=main;
   fi
@@ -112,7 +112,7 @@ fi
 
 if [ "$METHOD" == "crab" ]; then
   crab submit $DRYRUN --config="$CRAB_CFG"
-elif [ "$MODE" == "slurm" ]; then
+elif [ "$METHOD" == "slurm" ]; then
   PYCMD="from Configuration.CustomResonantHHProduction.aux import get_dataset_name;"
   PYCMD+="get_dataset_name($ERA,$SPIN,$DECAY_MODE,$MASS)";
   DATASET=$(python -c "$PYCMD");

@@ -6,8 +6,9 @@ jobId=$1;
 era=$2;
 cmssw_host=$3;
 cleanup=$4;
-previous_step=$5;
-current_step=$6;
+slc_str=$5;
+previous_step=$6;
+current_step=$7;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
@@ -25,7 +26,7 @@ cd $_;
 
 # determine runtime options
 if [ "$era" == "2016" ]; then
-  SCRAM_ARCH="slc7_amd64_gcc530";
+  SCRAM_ARCH="${slc_str}_amd64_gcc530";
   CMSSW_RELEASE="CMSSW_8_0_21";
   GLOBAL_TAG="80X_mcRun2_asymptotic_2016_TrancheIV_v6";
   ERA="Run2_2016";
@@ -34,7 +35,7 @@ if [ "$era" == "2016" ]; then
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
 elif [ "$era" == "2017" ]; then
-  SCRAM_ARCH="slc7_amd64_gcc630";
+  SCRAM_ARCH="${slc_str}_amd64_gcc630";
   CMSSW_RELEASE="CMSSW_9_4_7";
   GLOBAL_TAG="94X_mc2017_realistic_v11";
   ERA="Run2_2017";
@@ -43,7 +44,7 @@ elif [ "$era" == "2017" ]; then
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
 elif [ "$era" == "2018" ]; then
-  SCRAM_ARCH="slc7_amd64_gcc700";
+  SCRAM_ARCH="${slc_str}_amd64_gcc700";
   CMSSW_RELEASE="CMSSW_10_2_5";
   GLOBAL_TAG="102X_upgrade2018_realistic_v15";
   ERA="Run2_2018";

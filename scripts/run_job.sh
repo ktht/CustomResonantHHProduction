@@ -15,6 +15,7 @@ decayMode=$7;
 cleanup=$8;
 cmsswVersion=$9;
 runNano=${10};
+method=${11};
 
 eventsPerLumi_nr=$(echo $eventsPerLumi | sed 's/^eventsPerLumi=//g');
 maxEvents_nr=$(echo $maxEvents | sed 's/^maxEvents=//g');
@@ -25,13 +26,7 @@ decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
 cleanup_str=$(echo $cleanup | sed 's/^cleanup=//g');
 cmsswVersion_str=$(echo $cmsswVersion | sed 's/^cmsswVersion=//g');
 runNano_str=$(echo $runNano | sed 's/^runNano=//g');
-
-# use the same container (SLC6)
-image=/cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6;
-if [ ! -d $image ]; then
-  echo "Image $d does not exist";
-  exit 1;
-fi
+method_str=$(echo $runNano | sed 's/^method=//g');
 
 extra_bind="";
 if [ -d "$cmsswVersion_str" ]; then
@@ -56,15 +51,27 @@ for input_file in $input_files; do
   fi
 done;
 
-echo "Singularity image: $image";
 echo "CMSSW host: $cmssw_host";
+
+if [ "$method_str" != "crab" ]; then
+  image=/cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6;
+  if [ ! -d $image ]; then
+    echo "Image $d does not exist";
+    exit 1;
+  fi;
+  echo "Singularity image: $image";
+  wrapper_cmd="singularity run --home $PWD --bind /cvmfs $extra_bind --contain --ipc --pid $image";
+  slc_str="slc7";
+else
+  wrapper_cmd="";
+  slc_str="slc6";
+fi;
 
 ls -lh;
 
 echo "Running LHE and GEN+SIM step (`date`)";
-singularity run --home $PWD --bind /cvmfs $extra_bind --contain --ipc --pid $image \
-  ./run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr  \
-                 $decayMode_str $cmssw_host $cleanup_str step0;
+ $wrapper_cmd ./run_step0.sh $jobId $eventsPerLumi_nr $maxEvents_nr $era_nr $spin_nr $mass_nr  \
+                             $decayMode_str $cmssw_host $cleanup_str step0;
 exit_code=$?;
 if [ ! -f step0.root ]; then
   echo "No output file was produced at step 0 -> exiting";
@@ -76,7 +83,7 @@ fi;
 
 
 echo "Running PU premixing and AODSIM step (`date`)";
-./run_step1.sh $jobId $era_nr $cmssw_host $cleanup_str step0 step1;
+./run_step1.sh $jobId $era_nr $cmssw_host $cleanup_str $slc_str step0 step1;
 exit_code=$?;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step0.root;
@@ -90,7 +97,7 @@ if [[ $exit_code -ne 0 ]]; then
 fi;
 
 echo "Running MiniAODSIM step (`date`)";
-./run_step2.sh $era_nr $cmssw_host $cleanup_str step1 step2;
+./run_step2.sh $era_nr $cmssw_host $cleanup_str $slc_str step1 step2;
 exit_code=$?;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step1.root;
@@ -104,7 +111,7 @@ if [[ $exit_code -ne 0 ]]; then
 fi;
 
 if [ "$runNano_str" == "yes" ]; then
-  ./run_step3.sh $era_nr $cmssw_host step2 step3;
+  ./run_step3.sh $era_nr $cmssw_host $slc_str step2 step3;
   exit_code=$?;
   mv -v step3.root tree.root;
 else:

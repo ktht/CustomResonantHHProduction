@@ -6,8 +6,9 @@ set -x;
 
 era=$1;
 cmssw_host=$2;
-previous_step=$3;
-current_step=$4;
+slc_str=$3;
+previous_step=$4;
+current_step=$5;
 
 CWD=$PWD;
 
@@ -30,6 +31,7 @@ if [ ! -d $cmssw_host ]; then
   exit 1;
 fi;
 
+export SCRAM_ARCH="${slc_str}_amd64_gcc700";
 source /cvmfs/cms.cern.ch/cmsset_default.sh;
 cd $cmssw_host/src;
 eval `scram runtime -sh`; # cmsenv

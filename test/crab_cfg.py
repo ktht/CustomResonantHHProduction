@@ -78,6 +78,7 @@ config.JobType.scriptArgs              = [
   'cleanup=true',
   'cmsswVersion={}'.format(CMSSW_VERSION),
   'runNano={}'.format(RUN_NANO),
+  'method=crab',
 ]
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.numCores                = 1

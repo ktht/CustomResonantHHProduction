@@ -30,7 +30,8 @@ run_job.sh $JOB_IDX \
   decayMode=$DECAY_MODE \
   cleanup=$CLEANUP \
   cmsswVersion=$CMSSW_VERSION \
-  runNano=$RUN_NANO;
+  runNano=$RUN_NANO \
+  method=local;
 
 if [ "$RUN_NANO" == "yes" ]; then
   cp -v tree.root $OUTPUT_DIR/tree_${JOB_IDX}.root;

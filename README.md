@@ -131,7 +131,10 @@ Anyways, here's the mapping of architectures:
 
 ### Instructions
 
-Set up CMSSW:
+### Local submission
+
+This section assumes that your host machine is based on SLC7.
+Set up your CMSSW:
 
 ```bash
 cd $HOME
@@ -144,18 +147,98 @@ git clone https://github.com/ktht/CustomResonantHHProduction.git Configuration/C
 scram b -j8
 ```
 
-Create grid proxy when running locally:
+Set up CRAB and create grid proxy when running locally (needed to access minbias samples):
+
 ```bash
+source /cvmfs/grid.cern.ch/umd-c7ui-latest/etc/profile.d/setup-c7-ui-example.sh; # for proxy
+source /cvmfs/cms.cern.ch/crab3/crab.sh prod; # for crab
+
 # non-standard proxy certificate necessary when running on SLURM
 # because /tmp between host and comp nodes is not the same
 voms-proxy-init -voms cms -valid 192:00 --out $PWD/voms_proxy.txt
 export X509_USER_PROXY=$PWD/voms_proxy.txt
 ```
 
-Run the jobs on the grid:
+Run jobs on the cluster:
 
 ```bash
-# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass
+# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass ([yes|no] -- optional)
+
+submit_jobs.sh slurm prod 2016 0 sl 280
+submit_jobs.sh slurm prod 2016 0 sl 320
+submit_jobs.sh slurm prod 2016 0 sl 750
+submit_jobs.sh slurm prod 2016 0 sl 850
+
+submit_jobs.sh slurm prod 2016 0 dl 250
+submit_jobs.sh slurm prod 2016 0 dl 280
+submit_jobs.sh slurm prod 2016 0 dl 320
+submit_jobs.sh slurm prod 2016 0 dl 700
+submit_jobs.sh slurm prod 2016 0 dl 850
+
+submit_jobs.sh slurm prod 2016 2 sl 280
+submit_jobs.sh slurm prod 2016 2 sl 320
+submit_jobs.sh slurm prod 2016 2 sl 750
+submit_jobs.sh slurm prod 2016 2 sl 850
+
+submit_jobs.sh slurm prod 2016 2 dl 250
+submit_jobs.sh slurm prod 2016 2 dl 280
+submit_jobs.sh slurm prod 2016 2 dl 320
+submit_jobs.sh slurm prod 2016 2 dl 750
+submit_jobs.sh slurm prod 2016 2 dl 850
+
+submit_jobs.sh slurm prod 2017 0 dl 300
+submit_jobs.sh slurm prod 2017 0 dl 550
+
+submit_jobs.sh slurm prod 2018 0 dl 450
+```
+
+### CRAB submission
+
+The only way to run step0 in CRAB worker nodes is to submit the jobs from SLC6.
+Spawning a singularity session does not work because of the following error:
+
+```
+No setuid installation found, for unprivileged installation use: ./mconfig --without-suid
+```
+
+So, instead of launching singularity in the worker nodes, do it in the host machine:
+
+```bash
+# could also use:
+singularity exec --home $HOME --bind /cvmfs --contain --ipc --pid \
+  /cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6 bash
+```
+
+And in singularity set up CMSSW:
+
+```bash
+export SCRAM_ARCH=slc6_amd64_gcc700 # note slc6, not slc7
+source /cvmfs/cms.cern.ch/cmsset_default.sh;
+cmsrel CMSSW_10_2_22
+cd $_/src
+cmsenv
+git clone https://github.com/ktht/CustomResonantHHProduction.git Configuration/CustomResonantHHProduction
+scram b -j8
+```
+
+Set up CRAB and proxy utilities:
+
+```bash
+source /cvmfs/grid.cern.ch/emi3ui-latest/etc/profile.d/setup-ui-example.sh; # for proxy
+source /cvmfs/cms.cern.ch/crab3/crab.sh pre; # for crab
+```
+
+However, you have to create (and renew) the grid proxy in SLC7, because apparently it doesn't work in SLC6:
+
+```bash
+voms-proxy-init -voms cms -valid 192:00 --out $PWD/voms_proxy.txt
+export X509_USER_PROXY=$PWD/voms_proxy.txt # define the same variable in singularity
+```
+
+Finally, submit the jobs:
+
+```bash
+# arguments: [crab|slurm] [prod|test] era spin [sl|dl] mass ([yes|no] -- optional)
 
 submit_jobs.sh crab prod 2016 0 sl 280
 submit_jobs.sh crab prod 2016 0 sl 320
@@ -184,5 +267,3 @@ submit_jobs.sh crab prod 2017 0 dl 550
 
 submit_jobs.sh crab prod 2018 0 dl 450
 ```
-
-When running locally, replace `crab` with `slurm` in the above commands.

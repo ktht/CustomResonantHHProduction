@@ -5,8 +5,9 @@ set -x
 era=$1;
 cmssw_host=$2;
 cleanup=$3;
-previous_step=$4;
-current_step=$5;
+slc_str=$4;
+previous_step=$5;
+current_step=$6;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
@@ -24,19 +25,19 @@ cd $_;
 
 # determine runtime options
 if [ "$era" == "2016" ]; then
-  SCRAM_ARCH="slc7_amd64_gcc630";
+  SCRAM_ARCH="${slc_str}_amd64_gcc630";
   CMSSW_RELEASE="CMSSW_9_4_9";
   GLOBAL_TAG="94X_mcRun2_asymptotic_v3";
   ERA="Run2_2016,run2_miniAOD_80XLegacy	";
   EXTRA_ARGS="";
 elif [ "$era" == "2017" ]; then
-  SCRAM_ARCH="slc7_amd64_gcc630";
+  SCRAM_ARCH="${slc_str}_amd64_gcc630";
   CMSSW_RELEASE="CMSSW_9_4_7";
   GLOBAL_TAG="94X_mc2017_realistic_v14";
   ERA="Run2_2017,run2_miniAOD_94XFall17";
   EXTRA_ARGS="--scenario pp";
 elif [ "$era" == "2018" ]; then
-  SCRAM_ARCH="slc7_amd64_gcc700";
+  SCRAM_ARCH="${slc_str}_amd64_gcc700";
   CMSSW_RELEASE="CMSSW_10_2_5";
   GLOBAL_TAG="102X_upgrade2018_realistic_v15";
   ERA="Run2_2018";

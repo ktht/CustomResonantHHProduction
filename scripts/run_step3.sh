@@ -48,7 +48,7 @@ fi;
 
 cmsDriver.py \
   --python_filename $pset \
-  --eventcontent NANOEDMAODSIM \
+  --eventcontent NANOAODSIM \
   --customise Configuration/DataProcessing/Utils.addMonitoring \
   --datatier NANOAODSIM \
   --fileout "file:$outputFile" \

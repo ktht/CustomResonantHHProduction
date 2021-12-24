@@ -35,11 +35,11 @@ CRAB_STATUS_DIR = get_env_var('CRAB_STATUS_DIR')
 
 if RUN_NANO == "yes":
   raise RuntimeError("Running NanoAOD step enabled")
-pset_suffix = "mini" if RUN_NANO != "yes" else "nano"
+outputName = "mini" if RUN_NANO != "yes" else "nano"
 
 TODAY         = datetime.date.today().strftime("%Y%b%d")
 BASEDIR       = os.path.join(CMSSW_BASE, 'src/Configuration/CustomResonantHHProduction')
-PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset_{}.py'.format(pset_suffix))
+PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset.py')
 SCRIPTEXE_LOC = os.path.join(BASEDIR, 'scripts', 'run_job.sh')
 
 if not os.path.isdir(CRAB_STATUS_DIR):
@@ -85,6 +85,7 @@ config.JobType.maxMemoryMB             = 2500
 config.JobType.eventsPerLumi           = int(NEVENTS_PER_JOB)
 config.JobType.inputFiles              = PAYLOAD
 config.JobType.sendPythonFolder        = True
+config.JobType.outputFiles             = [ '{}.root'.format(outputName) ]
 
 config.Site.storageSite          = 'T2_EE_Estonia'
 config.Data.outputPrimaryDataset = DATASET

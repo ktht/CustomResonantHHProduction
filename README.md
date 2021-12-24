@@ -205,7 +205,7 @@ So, instead of launching singularity in the worker nodes, do it in the host mach
 
 ```bash
 # could also use:
-singularity exec --home $HOME --bind /cvmfs --contain --ipc --pid \
+singularity exec --home $HOME --bind /cvmfs --bind /tmp --contain --ipc --pid \
   /cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6 bash
 ```
 

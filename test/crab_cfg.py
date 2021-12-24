@@ -54,7 +54,7 @@ for payload in PAYLOAD:
   if not os.path.isfile(payload):
     raise RuntimeError("No such file: %s" % payload)
 
-DATASET      = get_dataset_name(SPIN, DECAY_MODE, MASS)
+DATASET      = get_dataset_name(ERA, SPIN, DECAY_MODE, MASS)
 ID           = '{}_{}_{}'.format(TODAY, DATASET, VERSION)
 crabUserName = getUsernameFromCRIC()
 

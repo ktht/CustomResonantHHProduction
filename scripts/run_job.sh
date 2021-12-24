@@ -71,8 +71,7 @@ fi
 
 
 echo "Running PU premixing and AODSIM step (`date`)";
-singularity run --home $PWD:$pwd_target --bind /cvmfs $extra_bind --contain --ipc --pid $image \
-  ./run_step1.sh $era_nr $cmssw_host $cleanup_str step0 step1;
+./run_step1.sh $era_nr $cmssw_host $cleanup_str step0 step1;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step0.root;
 fi;
@@ -82,8 +81,7 @@ if [ ! -f step1.root ]; then
 fi
 
 echo "Running MiniAODSIM step (`date`)";
-singularity run --home $PWD:$pwd_target --bind /cvmfs $extra_bind --contain --ipc --pid $image \
-  ./run_step2.sh $era_nr $cmssw_host $cleanup_str step1 step2;
+./run_step2.sh $era_nr $cmssw_host $cleanup_str step1 step2;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step1.root;
 fi;

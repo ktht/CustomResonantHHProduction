@@ -2,8 +2,7 @@
 
 ## TODO
 
-- abandon `singularity` as it does not comply with VOMS
-- use slc7 arch -- need some compromises
+- implement step3 (nano) for local testing
 
 ## Create missing gridpacks
 
@@ -115,12 +114,24 @@ dasgoclient -query="file dataset=/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAut
 |   NanoAODv7  |                                                        2016                                                        |                                                       2017                                                       |                                                        2018                                                        |
 |:------------:|:------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------:|
 |     CMSSW    |                                                   `CMSSW_10_2_22`                                                  |                                                  `CMSSW_10_2_22`                                                 |                                                   `CMSSW_10_2_22`                                                  |
-| Architecture |                                                 `slc6_amd64_gcc700`\*                                              |                                                `slc6_amd64_gcc700`\*                                             |                                                 `slc6_amd64_gcc700`\*                                              |
+| Architecture |                                                 `slc6_amd64_gcc700`                                                |                                                `slc6_amd64_gcc700`                                               |                                                 `slc6_amd64_gcc700`                                                |
 |  Global tag  |                                             `102X_mcRun2_asymptotic_v8`                                            |                                            `102X_mc2017_realistic_v8`                                            |                                          `102X_upgrade2018_realistic_v21`                                          |
 | Era          |                                          `Run2_2016,run2_nanoAOD_94X2016`                                          |                                       `Run2_2017,run2_nanoAOD_94XMiniAODv2`                                      |                                           `Run2_2018,run2_nanoAOD_102Xv1`                                          |
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16NanoAODv7-00284) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17NanoAODv7-02340) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18NanoAODv7-02865) |
 
-\* We could probably use `slc6_amd64_gcc700` instead, so no need to sandbox it in `singularity`
+### Architecture mapping
+
+There's a glaring problem that has no trivial solution: premixing step needs a minbias sample that's accessible
+from DBS, however, access do DBS requires an open proxy which cannot be created in SLC6. So, the only way out is
+to use SLC7 build from step 1 onwards. The 0-th step cannot be run in SLC7 because of the library dependencies in
+the gridpack. We could produce new gridpacks in SLC7 and run everything in SLC7, but the problem is that the CMSSW
+version that the gridpacks were produced in and the 0-th step was run are not available in SLC7.
+
+Anyways, here's the mapping of architectures:
+
+- `slc6_amd64_gcc530` -> `slc7_amd64_gcc530`
+- `slc6_amd64_gcc630` -> `slc7_amd64_gcc630`
+- `slc6_amd64_gcc700` -> `slc7_amd64_gcc700`
 
 ### Instructions
 
@@ -128,6 +139,7 @@ Set up CMSSW:
 
 ```bash
 cd $HOME
+export SCRAM_ARCH=slc7_amd64_gcc700
 source /cvmfs/cms.cern.ch/cmsset_default.sh;
 cmsrel CMSSW_10_2_22
 cd $_/src

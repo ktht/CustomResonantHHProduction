@@ -26,7 +26,7 @@ cd $_;
 
 # determine runtime options
 if [ "$era" == "2016" ]; then
-  SCRAM_ARCH="slc6_amd64_gcc530";
+  SCRAM_ARCH="slc7_amd64_gcc530";
   CMSSW_RELEASE="CMSSW_8_0_21";
   GLOBAL_TAG="80X_mcRun2_asymptotic_2016_TrancheIV_v6";
   ERA="Run2_2016";
@@ -35,7 +35,7 @@ if [ "$era" == "2016" ]; then
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
 elif [ "$era" == "2017" ]; then
-  SCRAM_ARCH="slc6_amd64_gcc630";
+  SCRAM_ARCH="slc7_amd64_gcc630";
   CMSSW_RELEASE="CMSSW_9_4_7";
   GLOBAL_TAG="94X_mc2017_realistic_v11";
   ERA="Run2_2017";
@@ -44,7 +44,7 @@ elif [ "$era" == "2017" ]; then
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
 elif [ "$era" == "2018" ]; then
-  SCRAM_ARCH="slc6_amd64_gcc700";
+  SCRAM_ARCH="slc7_amd64_gcc700";
   CMSSW_RELEASE="CMSSW_10_2_5";
   GLOBAL_TAG="102X_upgrade2018_realistic_v15";
   ERA="Run2_2018";
@@ -175,7 +175,8 @@ if [ ! -z "$EXTRA_ARGS_AOD" ]; then
   CMSDRIVER_OPTS_AOD+=" $EXTRA_ARGS_AOD";
 fi;
 
-CUSTOMIZATION_AOD="$CUSTOMIZATION;process=debug(process,'$dumpFileFinal');"
+CUSTOMIZATION_AOD="$CUSTOMIZATION"
+CUSTOMIZATION_AOD+="process=debug(process,'$dumpFileFinal');"
 
 cmsDriver.py $CMSDRIVER_OPTS_AOD --customise_commands "$CUSTOMIZATION_AOD";
 

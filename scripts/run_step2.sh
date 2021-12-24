@@ -24,19 +24,19 @@ cd $_;
 
 # determine runtime options
 if [ "$era" == "2016" ]; then
-  SCRAM_ARCH="slc6_amd64_gcc630";
+  SCRAM_ARCH="slc7_amd64_gcc630";
   CMSSW_RELEASE="CMSSW_9_4_9";
   GLOBAL_TAG="94X_mcRun2_asymptotic_v3";
   ERA="Run2_2016,run2_miniAOD_80XLegacy	";
   EXTRA_ARGS="";
 elif [ "$era" == "2017" ]; then
-  SCRAM_ARCH="slc6_amd64_gcc630";
+  SCRAM_ARCH="slc7_amd64_gcc630";
   CMSSW_RELEASE="CMSSW_9_4_7";
   GLOBAL_TAG="94X_mc2017_realistic_v14";
   ERA="Run2_2017,run2_miniAOD_94XFall17";
   EXTRA_ARGS="--scenario pp";
 elif [ "$era" == "2018" ]; then
-  SCRAM_ARCH="slc6_amd64_gcc700";
+  SCRAM_ARCH="slc7_amd64_gcc700";
   CMSSW_RELEASE="CMSSW_10_2_5";
   GLOBAL_TAG="102X_upgrade2018_realistic_v15";
   ERA="Run2_2018";
@@ -105,8 +105,8 @@ if [ ! -z "$EXTRA_ARGS" ]; then
 fi;
 
 CUSTOMIZATION_MODULE=$(echo "$REPO_DIR" | tr '/' '.');
-CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import debug"
-CUSTOMIZATION+="$CUSTOMIZATION;process=debug(process,'$dumpFile');";
+CUSTOMIZATION="from ${CUSTOMIZATION_MODULE}.${CUSTOMIZATION_NAME%%.*} import debug;"
+CUSTOMIZATION+="process=debug(process,'$dumpFile');";
 
 # generate the cfg file
 cmsDriver.py $CMSDRIVER_OPTS --customise_commands "$CUSTOMIZATION";

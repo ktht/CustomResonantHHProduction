@@ -9,6 +9,7 @@ MASS=$6;
 DECAY_MODE=$7;
 CLEANUP=$8;
 OUTPUT_DIR=$9;
+RUN_NANO=${10};
 
 TMP_ID=$SLURM_JOBID
 if [ -z "$TMP_ID" ]; then
@@ -28,9 +29,14 @@ run_job.sh $JOB_IDX \
   mass=$MASS \
   decayMode=$DECAY_MODE \
   cleanup=$CLEANUP \
-  cmsswVersion=$CMSSW_VERSION;
+  cmsswVersion=$CMSSW_VERSION \
+  runNano=$RUN_NANO;
 
-cp -v mini.root $OUTPUT_DIR/mini_${JOB_IDX}.root;
+if [ "$RUN_NANO" == "yes" ]; then
+  cp -v tree.root $OUTPUT_DIR/tree_${JOB_IDX}.root;
+else
+  cp -v mini.root $OUTPUT_DIR/mini_${JOB_IDX}.root;
+fi;
 
 sleep 60
 cd -

@@ -14,6 +14,7 @@ mass=$6;
 decayMode=$7;
 cleanup=$8;
 cmsswVersion=$9;
+runNano=${10};
 
 eventsPerLumi_nr=$(echo $eventsPerLumi | sed 's/^eventsPerLumi=//g');
 maxEvents_nr=$(echo $maxEvents | sed 's/^maxEvents=//g');
@@ -23,6 +24,7 @@ mass_nr=$(echo $mass | sed 's/^mass=//g');
 decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
 cleanup_str=$(echo $cleanup | sed 's/^cleanup=//g');
 cmsswVersion_str=$(echo $cmsswVersion | sed 's/^cmsswVersion=//g');
+runNano_str=$(echo $cmsswVersion | sed 's/^runNano=//g');
 
 # use the same container (SLC6)
 image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;
@@ -49,6 +51,9 @@ fi;
 
 # copy necessary inputs to cwd that otherwise are added to the sandbox
 input_files="scripts/run_step0.sh scripts/run_step1.sh scripts/run_step2.sh extra/pu_${era_nr}.txt";
+if [ "$runNano_str" == "yes" ]; then
+  input_files+=" scripts/run_step3.sh"
+fi;
 for input_file in $input_files; do
   if [ ! -f $(basename $input_file) ]; then
     cp -v $cmssw_host/src/Configuration/CustomResonantHHProduction/$input_file .;
@@ -90,7 +95,12 @@ if [ ! -f step2.root ]; then
   exit 1;
 fi
 
-mv -v step2.root mini.root
+if [ "$runNano_str" == "yes" ]; then
+  ./run_step3.sh $era_nr $cmssw_host step2 step3;
+  mv -v step3.root tree.root;
+else:
+  mv -v step2.root mini.root;
+fi;
 echo "All done (`date`)";
 
 cat FrameworkJobReport.*.xml > FrameworkJobReport.xml;

@@ -2,7 +2,8 @@
 
 ## TODO
 
-- implement step3 (nano) for local testing
+- adjust for memory requirements
+- shuffle minbias?
 
 ## Create missing gridpacks
 

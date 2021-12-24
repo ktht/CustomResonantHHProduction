@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Usage: submit_jobs.sh [crab|slurm] [prod|test] [2016|2017|2018] [0|2] [sl|dl] mass
+# Usage: submit_jobs.sh [crab|slurm] [prod|test] [2016|2017|2018] [0|2] [sl|dl] mass [yes|no]
 # [crab|slurm] -- submit to the grid or to local cluster
 # [prod|test] -- for full production or testing
 # [2016|2017|2018] -- era
 # [0|2] -- spin
 # [sl|dl] -- decay mode
 # mass -- resonant mass point
+# [yes|no] -- run NanoAOD step
 #
 # In case you want to dryrun first, define env variable DRYRUN
 # In case you want to switch SLURM partitions, set SBATCH_QUEUE env variable
@@ -18,6 +19,7 @@ export SPIN=$4;
 export DECAY_MODE=$5;
 export MASS=$6;
 export VERSION=$7;
+export RUN_NANO=$8;
 
 echo "Received the following parameters:"
 echo "  submit to  = $METHOD";
@@ -27,6 +29,8 @@ echo "  spin       = $SPIN";
 echo "  decay mode = $DECAY_MODE";
 echo "  mass point = $MASS";
 echo "  version    = $VERSION";
+echo "  run nano?  = $RUN_NANO";
+echo "  "
 
 if [ "$MODE" == "crab" ]; then
   export NEVENTS_PER_JOB=250;
@@ -121,7 +125,8 @@ elif [ "$MODE" == "slurm" ]; then
 
   for i in `seq 1 $NOF_JOBS`; do
     sbatch --partition=$SBATCH_QUEUE --output=$LOG_DIR/out_$i.log \
-      job_wrapper.sh $i $NEVENTS_PER_SAMPLE $NEVENTS $ERA $SPIN $MASS $DECAY_MODE $CLEANUP $OUTPUT_DIR;
+      job_wrapper.sh $i $NEVENTS_PER_SAMPLE $NEVENTS $ERA $SPIN $MASS \
+                        $DECAY_MODE $CLEANUP $OUTPUT_DIR $RUN_NANO;
   done
 else
   # should never happen

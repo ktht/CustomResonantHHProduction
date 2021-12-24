@@ -28,10 +28,14 @@ MASS            = get_env_var('MASS')
 VERSION         = get_env_var('VERSION')
 PUBLISH         = get_env_var('PUBLISH')
 CMSSW_VERSION   = get_env_var('CMSSW_VERSION')
+RUN_NANO        = get_env_var('RUN_NANO')
+
+assert(RUN_NANO == "no")
+pset_suffix = "mini" if RUN_NANO == "no" else "nano"
 
 TODAY         = datetime.date.today().strftime("%Y%b%d")
 BASEDIR       = os.path.join(CMSSW_VERSION, 'src/Configuration/CustomResonantHHProduction')
-PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset.py')
+PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset_{}.py'.format(pset_suffix))
 SCRIPTEXE_LOC = os.path.join(BASEDIR, 'scripts', 'run_job.sh')
 CRAB_LOC      = os.path.join(os.path.expanduser('~'), 'crab_projects')
 
@@ -39,8 +43,11 @@ if not os.path.isdir(CRAB_LOC):
   os.makedirs(CRAB_LOC)
 assert(os.path.isfile(PSET_LOC))
 
+last_step = 2
+if RUN_NANO == "yes":
+  last_step = 3
 PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC, os.path.join(BASEDIR, 'extra', 'pu_{}.txt'.format(ERA)) ] + \
-          [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(3) ]
+          [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(last_step + 1) ]
 for payload in PAYLOAD:
   assert(os.path.isfile(payload))
 
@@ -67,6 +74,7 @@ config.JobType.scriptArgs              = [
   'decayMode={}'.format(DECAY_MODE),
   'cleanup=true',
   'cmsswVersion={}'.format(CMSSW_VERSION),
+  'runNano={}'.format(RUN_NANO),
 ]
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.numCores                = 1

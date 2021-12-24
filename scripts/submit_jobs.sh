@@ -21,7 +21,7 @@ export MASS=$6;
 export VERSION=$7;
 export RUN_NANO=$8;
 
-if [ -z "$RUN_NANO" ]; then
+if [[ -z "$RUN_NANO" ]] || [[ "$MODE" == "crab" ]]; then
   export RUN_NANO="no";
 fi;
 
@@ -48,11 +48,9 @@ if [ "$MODE" == "crab" ]; then
     echo "Invalid mass point: $MASS";
     exit 1;
   fi
-  export PUBLISH=true;
 elif [ "$MODE" == "test" ]; then
   export NEVENTS_PER_JOB=10;
   export NEVENTS=100;
-  export PUBLISH=false;
 else
   echo "Invalid mode: $MODE";
   exit 1;
@@ -83,7 +81,7 @@ if [ "$METHOD" == "crab" ]; then
     exit 1;
   fi
 
-  CRAB_CFG=$CMSSW_BASE/src/Configuration/CustomResonantHHProduction/test/crab_cfg.py
+  CRAB_CFG=$CMSSW_BASE/src/Configuration/CustomResonantHHProduction/test/crab_cfg_mini.py
   if [ ! -z "$DRYRUN" ]; then
     DRYRUN="--dryrun";
   fi

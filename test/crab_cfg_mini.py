@@ -27,15 +27,9 @@ SPIN            = int(get_env_var('SPIN'))
 DECAY_MODE      = get_env_var('DECAY_MODE')
 MASS            = get_env_var('MASS')
 VERSION         = get_env_var('VERSION')
-PUBLISH         = get_env_var('PUBLISH')
 CMSSW_VERSION   = get_env_var('CMSSW_VERSION')
 CMSSW_BASE      = get_env_var('CMSSW_BASE')
-RUN_NANO        = get_env_var('RUN_NANO')
 CRAB_STATUS_DIR = get_env_var('CRAB_STATUS_DIR')
-
-if RUN_NANO == "yes":
-  raise RuntimeError("Running NanoAOD step enabled")
-outputName = "mini" if RUN_NANO != "yes" else "nano"
 
 TODAY         = datetime.date.today().strftime("%Y%b%d")
 BASEDIR       = os.path.join(CMSSW_BASE, 'src/Configuration/CustomResonantHHProduction')
@@ -46,8 +40,6 @@ if not os.path.isdir(CRAB_STATUS_DIR):
   os.makedirs(CRAB_STATUS_DIR)
 
 last_step = 2
-if RUN_NANO == "yes":
-  last_step = 3
 PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC, os.path.join(BASEDIR, 'extra', 'pu_{}.txt'.format(ERA)) ] + \
           [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(last_step + 1) ]
 for payload in PAYLOAD:
@@ -77,7 +69,7 @@ config.JobType.scriptArgs              = [
   'decayMode={}'.format(DECAY_MODE),
   'cleanup=true',
   'cmsswVersion={}'.format(CMSSW_VERSION),
-  'runNano={}'.format(RUN_NANO),
+  'runNano=no',
   'method=crab',
 ]
 config.JobType.allowUndistributedCMSSW = True
@@ -95,5 +87,5 @@ config.Data.unitsPerJob          = int(NEVENTS_PER_JOB)
 config.Data.totalUnits           = int(NEVENTS)
 
 config.Data.outLFNDirBase    = '/store/user/%s/CustomResonantHHProduction/%s' % (crabUserName, VERSION)
-config.Data.publication      = PUBLISH == "true"
+config.Data.publication      = False
 config.Data.outputDatasetTag = ID

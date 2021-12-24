@@ -26,7 +26,7 @@ decayMode_str=$(echo $decayMode | sed 's/^decayMode=//g');
 cleanup_str=$(echo $cleanup | sed 's/^cleanup=//g');
 cmsswVersion_str=$(echo $cmsswVersion | sed 's/^cmsswVersion=//g');
 runNano_str=$(echo $runNano | sed 's/^runNano=//g');
-method_str=$(echo $runNano | sed 's/^method=//g');
+method_str=$(echo $method | sed 's/^method=//g');
 
 extra_bind="";
 if [ -d "$cmsswVersion_str" ]; then

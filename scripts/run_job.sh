@@ -76,7 +76,7 @@ fi
 
 
 echo "Running PU premixing and AODSIM step (`date`)";
-./run_step1.sh $era_nr $cmssw_host $cleanup_str step0 step1;
+./run_step1.sh $jobId $era_nr $cmssw_host $cleanup_str step0 step1;
 if [ "$cleanup_str" == "true" ]; then
   rm -fv step0.root;
 fi;

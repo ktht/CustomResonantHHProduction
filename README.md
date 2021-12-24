@@ -3,7 +3,6 @@
 ## TODO
 
 - adjust for memory requirements
-- shuffle minbias?
 
 ## Create missing gridpacks
 

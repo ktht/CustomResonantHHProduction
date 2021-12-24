@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 import os
+import random
 
 def debug(process, dumpFile):
   with open(dumpFile, 'w') as dump:
@@ -20,10 +21,13 @@ def customize(process, seed, eventsPerLumi, gridpack, dumpFile):
   process = debug(process, dumpFile)
   return process
 
-def assignPU(process, pu_file):
+def assignPU(process, pu_file, seed = -1):
   pu_files = []
   with open(pu_file, 'r') as pu_fptr:
     for line in pu_fptr:
       pu_files.append(line.strip())
+  if seed > 0:
+    random.seed(seed)
+    random.shuffle(pu_files)
   process.mixData.input.fileNames = cms.untracked.vstring(pu_files)
   return process

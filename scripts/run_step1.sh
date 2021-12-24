@@ -1,14 +1,13 @@
 #!/bin/bash
 
-#TODO create the list of PU files before
-
 set -x
 
-era=$1;
-cmssw_host=$2;
-cleanup=$3;
-previous_step=$4;
-current_step=$5;
+jobId=$1;
+era=$2;
+cmssw_host=$3;
+cleanup=$4;
+previous_step=$5;
+current_step=$6;
 
 CWD=$PWD;
 echo "Current working directory is: $CWD";
@@ -131,7 +130,7 @@ fi
 
 CUSTOMIZATION_PU="$CUSTOMIZATION";
 CUSTOMIZATION_PU+="process=debug(process,'$dumpFileTmp');";
-CUSTOMIZATION_PU+="assignPU(process,'$pileup');";
+CUSTOMIZATION_PU+="assignPU(process,'$pileup',$jobId);";
 
 # generate the cfg file
 cmsDriver.py $CMSDRIVER_OPTS_PMX --customise_commands "$CUSTOMIZATION_PU";

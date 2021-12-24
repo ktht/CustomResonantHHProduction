@@ -179,6 +179,7 @@ fi;
 
 # run the job
 /usr/bin/time --verbose cmsRun -j $fwFile $pset;
+exit_code=$?;
 
 # show the contents of cwd
 ls -lh;
@@ -189,4 +190,8 @@ mv -v $fwFile $CWD;
 cd $CWD;
 if [ "$cleanup" == "true" ]; then
   rm -rfv $current_step;
+fi;
+
+if [[ $exit_code -ne 0 ]]; then
+  exit $exit_code;
 fi;

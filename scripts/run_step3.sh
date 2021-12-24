@@ -61,3 +61,8 @@ cmsDriver.py \
   -n -1
 
 /usr/bin/time --verbose cmsRun -j $fwFile $pset;
+exit_code=$?;
+
+if [[ $exit_code -ne 0 ]]; then
+  exit $exit_code;
+fi;

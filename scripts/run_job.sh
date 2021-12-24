@@ -27,7 +27,7 @@ cmsswVersion_str=$(echo $cmsswVersion | sed 's/^cmsswVersion=//g');
 runNano_str=$(echo $runNano | sed 's/^runNano=//g');
 
 # use the same container (SLC6)
-image=/cvmfs/singularity.opensciencegrid.org/kreczko/workernode:centos6;
+image=/cvmfs/singularity.opensciencegrid.org/bbockelm/cms:rhel6;
 if [ ! -d $image ]; then
   echo "Image $d does not exist";
   exit 1;

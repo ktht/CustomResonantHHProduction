@@ -114,7 +114,7 @@ if [ "$METHOD" == "crab" ]; then
   crab submit $DRYRUN --config="$CRAB_CFG"
 elif [ "$METHOD" == "slurm" ]; then
   PYCMD="from Configuration.CustomResonantHHProduction.aux import get_dataset_name;"
-  PYCMD+="get_dataset_name($ERA,$SPIN,$DECAY_MODE,$MASS)";
+  PYCMD+="get_dataset_name($ERA,$SPIN,'${DECAY_MODE}',$MASS)";
   DATASET=$(python -c "$PYCMD");
 
   DIR_SUFFIX="$USER/CustomResonantHHProduction/$VERSION/$DATASET"

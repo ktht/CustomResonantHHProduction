@@ -40,16 +40,16 @@ INPUTS["2016_spin2_250_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-250_narr
 INPUTS["2016_spin2_280_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280_narrow_13TeV-madgraph-pythia8_v0/211225_124302";
 INPUTS["2016_spin2_320_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320_narrow_13TeV-madgraph-pythia8_v0/211225_124459";
 INPUTS["2017_spin0_300_dl"]="v0/GluGluToRadionToHHTo2B2VTo2L2Nu_M-300_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2VTo2L2Nu_M-300_narrow_13TeV-madgraph-pythia8_v0/211225_124357";
-INPUTS["2016_spin0_750_sl"]="";
-INPUTS["2016_spin0_850_sl"]="";
-INPUTS["2016_spin0_700_dl"]="";
-INPUTS["2016_spin0_850_dl"]="";
-INPUTS["2016_spin2_750_sl"]="";
-INPUTS["2016_spin2_850_sl"]="";
-INPUTS["2016_spin2_750_dl"]="";
-INPUTS["2016_spin2_850_dl"]="";
-INPUTS["2017_spin0_550_dl"]="";
-INPUTS["2018_spin0_450_dl"]="";
+INPUTS["2016_spin0_750_sl"]="v0/GluGluToRadionToHHTo2B2WToLNu2J_M-750_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2WToLNu2J_M-750_narrow_13TeV-madgraph-pythia8_v0/211225_175418";
+INPUTS["2016_spin0_850_sl"]="v0/GluGluToRadionToHHTo2B2WToLNu2J_M-850_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2WToLNu2J_M-850_narrow_13TeV-madgraph-pythia8_v0/211225_180101";
+INPUTS["2016_spin0_700_dl"]="v0/GluGluToRadionToHHTo2B2VTo2L2Nu_M-700_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2VTo2L2Nu_M-700_narrow_13TeV-madgraph-pythia8_v0/211225_180215";
+INPUTS["2016_spin0_850_dl"]="v0/GluGluToRadionToHHTo2B2VTo2L2Nu_M-850_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2VTo2L2Nu_M-850_narrow_13TeV-madgraph-pythia8_v0/211225_180300";
+INPUTS["2016_spin2_750_sl"]="v0/GluGluToBulkGravitonToHHTo2B2WToLNu2J_M-750_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2WToLNu2J_M-750_narrow_13TeV-madgraph-pythia8_v0/211225_180325";
+INPUTS["2016_spin2_850_sl"]="v0/GluGluToBulkGravitonToHHTo2B2WToLNu2J_M-850_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-850_narrow_13TeV-madgraph-pythia8_v0/211225_200533";
+INPUTS["2016_spin2_750_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-750_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-750_narrow_13TeV-madgraph-pythia8_v0/211225_200505";
+INPUTS["2016_spin2_850_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-850_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-850_narrow_13TeV-madgraph-pythia8_v0/211225_200533";
+INPUTS["2017_spin0_550_dl"]="v0/GluGluToRadionToHHTo2B2VTo2L2Nu_M-550_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2VTo2L2Nu_M-550_narrow_13TeV-madgraph-pythia8_v0/211225_200602";
+INPUTS["2018_spin0_450_dl"]="v1/GluGluToRadionToHHTo2B2VTo2L2Nu_M-450_narrow_TuneCP5_PSWeights_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2VTo2L2Nu_M-450_narrow_TuneCP5_PSWeights_13TeV-madgraph-pythia8_v1/211225_203932";
 
 INPUT_VAL=${INPUTS[${KEY}]};
 if [ -z "$INPUT_VAL" ]; then

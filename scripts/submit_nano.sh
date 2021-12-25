@@ -39,7 +39,7 @@ INPUTS["2016_spin2_320_sl"]="v0/GluGluToBulkGravitonToHHTo2B2WToLNu2J_M-320_narr
 INPUTS["2016_spin2_250_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-250_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-250_narrow_13TeV-madgraph-pythia8_v0/211225_124242";
 INPUTS["2016_spin2_280_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-280_narrow_13TeV-madgraph-pythia8_v0/211225_124302";
 INPUTS["2016_spin2_320_dl"]="v0/GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToBulkGravitonToHHTo2B2VTo2L2Nu_M-320_narrow_13TeV-madgraph-pythia8_v0/211225_124459";
-INPUTS["2017_spin0_300_dl"]="";
+INPUTS["2017_spin0_300_dl"]="v0/GluGluToRadionToHHTo2B2VTo2L2Nu_M-300_narrow_13TeV-madgraph-pythia8/2021Dec25_GluGluToRadionToHHTo2B2VTo2L2Nu_M-300_narrow_13TeV-madgraph-pythia8_v0/211225_124357";
 INPUTS["2016_spin0_750_sl"]="";
 INPUTS["2016_spin0_850_sl"]="";
 INPUTS["2016_spin0_700_dl"]="";
@@ -52,7 +52,7 @@ INPUTS["2017_spin0_550_dl"]="";
 INPUTS["2018_spin0_450_dl"]="";
 
 INPUT_VAL=${INPUTS[${KEY}]};
-if [ -z "$SAMPLE_NAME" ]; then
+if [ -z "$INPUT_VAL" ]; then
   echo "Invalid arguments: $ERA, $SPIN, $DECAY_MODE, $MASS";
   exit 1;
 fi

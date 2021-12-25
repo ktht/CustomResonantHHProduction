@@ -109,16 +109,19 @@ fi
 export CRAB_STATUS_DIR="$HOME/crab_projects";
 mkdir -pv $CRAB_STATUS_DIR;
 
-NFILES=$(ls $INPUT_PATH/000*/*.root | wc -l);
-if [[ $NOF_MAX_FILES -gt 0 ]] && [[ $NFILES -gt $NOF_MAX_FILES ]]; then
+NFILES_TOTAL=$(ls $INPUT_PATH/000*/*.root | wc -l);
+if [[ $NOF_MAX_FILES -gt 0 ]] && [[ $NFILES_TOTAL -gt $NOF_MAX_FILES ]]; then
   NFILES=$NOF_MAX_FILES;
+else
+  NFILES=$NFILES_TOTAL;
 fi;
 
 NOF_JOBS=$(python -c "import math; print(int(math.ceil(float($NFILES) / $NFILES_PER_JOB)))");
 echo "Submitting jobs with the following parameters:"
-echo "Number of files:         $NFILES";
-echo "Number of files per job: $NFILES_PER_JOB";
-echo "Number of jobs:          $NOF_JOBS";
+echo "Number of files in total: $NFILES_TOTAL"
+echo "Number of files:          $NFILES";
+echo "Number of files per job:  $NFILES_PER_JOB";
+echo "Number of jobs:           $NOF_JOBS";
 echo -ne "Dryrun:                   ";
 if [ -z "$DRYRUN" ]; then echo "no"; else echo "yes"; fi
 

@@ -80,12 +80,14 @@ config.JobType.inputFiles              = PAYLOAD
 config.JobType.sendPythonFolder        = True
 config.JobType.outputFiles             = [ 'step2.root' ]
 
-config.Site.storageSite          = 'T2_EE_Estonia'
+config.Site.storageSite = 'T2_EE_Estonia'
+config.Site.blacklist   = [ 'T2_PT_NCG_Lisbon', 'T2_BE_UCL' ]
+
 config.Data.outputPrimaryDataset = DATASET
 config.Data.splitting            = 'EventBased'
 config.Data.unitsPerJob          = int(NEVENTS_PER_JOB)
 config.Data.totalUnits           = int(NEVENTS)
-
-config.Data.outLFNDirBase    = '/store/user/%s/CustomResonantHHProduction/%s' % (crabUserName, VERSION)
-config.Data.publication      = False
-config.Data.outputDatasetTag = ID
+config.Data.outLFNDirBase        = '/store/user/%s/CustomResonantHHProduction/%s' % (crabUserName, VERSION)
+config.Data.publication          = False
+config.Data.publishDBS           = 'phys03'
+config.Data.outputDatasetTag     = ID

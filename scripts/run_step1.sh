@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 jobId=$1;
 era=$2;
@@ -148,11 +148,11 @@ cmsDriver.py $CMSDRIVER_OPTS_PMX --customise_commands "$CUSTOMIZATION_PU";
 
 # dump the parameter sets
 python $psetTmp;
-if [ -f $dumpFileTmp ]; then
-  cat $dumpFileTmp;
-else
-  echo "File $dumpFileTmp does not exist!";
-fi;
+#if [ -f $dumpFileTmp ]; then
+#  cat $dumpFileTmp;
+#else
+#  echo "File $dumpFileTmp does not exist!";
+#fi;
 
 # run the job
 /usr/bin/time --verbose cmsRun -j $fwFileTmp $psetTmp;
@@ -193,11 +193,11 @@ cmsDriver.py $CMSDRIVER_OPTS_AOD --customise_commands "$CUSTOMIZATION_AOD";
 
 # dump the parameter sets
 python $psetFinal;
-if [ -f $dumpFileFinal ]; then
-  cat $dumpFileFinal;
-else
-  echo "File $dumpFileFinal does not exist!";
-fi;
+#if [ -f $dumpFileFinal ]; then
+#  cat $dumpFileFinal;
+#else
+#  echo "File $dumpFileFinal does not exist!";
+#fi;
 
 # run the job
 /usr/bin/time --verbose cmsRun -j $fwFile $psetFinal;

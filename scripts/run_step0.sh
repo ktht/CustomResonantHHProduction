@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+#set -x
 
 jobId=$1;
 eventsPerLumi=$2;
@@ -183,11 +183,11 @@ cmsDriver.py $CMSDRIVER_OPTS --customise_commands "$CUSTOMIZATION";
 
 # dump the parameter sets
 python $pset;
-if [ -f $dumpFile ]; then
-  cat $dumpFile;
-else
-  echo "File $dumpFile does not exist!";
-fi;
+#if [ -f $dumpFile ]; then
+#  cat $dumpFile;
+#else
+#  echo "File $dumpFile does not exist!";
+#fi;
 
 # run the job
 /usr/bin/time --verbose cmsRun -j $fwFile $pset;

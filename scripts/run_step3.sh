@@ -2,7 +2,7 @@
 
 # Usage: run_step3.sh [2016|2017|2018] $CMSSW_BASE step2 step3
 
-set -x;
+#set -x;
 
 era=$1;
 cmssw_host=$2;

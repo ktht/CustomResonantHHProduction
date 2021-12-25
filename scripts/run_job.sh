@@ -3,7 +3,7 @@
 # Usage:
 # run_job.sh 123 eventsPerLumi=100 maxEvents=250 era=2016 spin=0 mass=250 decayMode=sl cleanup=true cmsswVersion=$CMSSW_VERSION
 
-set -x
+#set -x
 
 jobId=$1;
 eventsPerLumi=$2;

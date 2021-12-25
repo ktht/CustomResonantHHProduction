@@ -36,7 +36,7 @@ echo "  version    = $VERSION";
 echo "  run nano?  = $RUN_NANO";
 echo "  "
 
-if [ "$MODE" == "crab" ]; then
+if [ "$MODE" == "prod" ]; then
   export NEVENTS_PER_JOB=250;
   if [ $MASS -lt 300 ]; then
     export NEVENTS=400000;

@@ -21,7 +21,7 @@ export MASS=$6;
 export VERSION=$7;
 export RUN_NANO=$8;
 
-if [[ -z "$RUN_NANO" ]] || [[ "$MODE" == "crab" ]]; then
+if [[ -z "$RUN_NANO" ]] || [[ "$METHOD" == "crab" ]]; then
   export RUN_NANO="no";
 fi;
 
@@ -34,7 +34,6 @@ echo "  decay mode = $DECAY_MODE";
 echo "  mass point = $MASS";
 echo "  version    = $VERSION";
 echo "  run nano?  = $RUN_NANO";
-echo "  "
 
 if [ "$MODE" == "prod" ]; then
   export NEVENTS_PER_JOB=400;

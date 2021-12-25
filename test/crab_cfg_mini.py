@@ -36,9 +36,6 @@ BASEDIR       = os.path.join(CMSSW_BASE, 'src/Configuration/CustomResonantHHProd
 PSET_LOC      = os.path.join(BASEDIR, 'test', 'dummy_pset.py')
 SCRIPTEXE_LOC = os.path.join(BASEDIR, 'scripts', 'run_job.sh')
 
-if not os.path.isdir(CRAB_STATUS_DIR):
-  os.makedirs(CRAB_STATUS_DIR)
-
 last_step = 2
 PAYLOAD = [ PSET_LOC, SCRIPTEXE_LOC, os.path.join(BASEDIR, 'extra', 'pu_{}.txt'.format(ERA)) ] + \
           [ os.path.join(BASEDIR, 'scripts', 'run_step{}.sh'.format(i)) for i in range(last_step + 1) ]

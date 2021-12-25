@@ -1,5 +1,10 @@
 # Resonant HH production
 
+## TODO
+
+- figure out if it's possible to publish flat trees or EDM only
+- if the latter (which is more likely), then figure out how to convert EDM into a flat tree
+
 ## Create missing gridpacks
 
 NB! Do the following in clean environment, no CMSSW:
@@ -115,23 +120,9 @@ dasgoclient -query="file dataset=/Neutrino_E-10_gun/RunIISummer17PrePremix-PUAut
 | Era          |                                          `Run2_2016,run2_nanoAOD_94X2016`                                          |                                       `Run2_2017,run2_nanoAOD_94XMiniAODv2`                                      |                                           `Run2_2018,run2_nanoAOD_102Xv1`                                          |
 | Example      | [spin-0, 260, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIISummer16NanoAODv7-00284) | [spin-0, 500, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIFall17NanoAODv7-02340) | [spin-0, 400, DL](https://cms-pdmv.cern.ch/mcm/public/restapi/requests/get_setup/HIG-RunIIAutumn18NanoAODv7-02865) |
 
-### Architecture mapping
-
-There's a glaring problem that has no trivial solution: premixing step needs a minbias sample that's accessible
-from DBS, however, access do DBS requires an open proxy which cannot be created in SLC6. So, the only way out is
-to use SLC7 build from step 1 onwards. The 0-th step cannot be run in SLC7 because of the library dependencies in
-the gridpack. We could produce new gridpacks in SLC7 and run everything in SLC7, but the problem is that the CMSSW
-version that the gridpacks were produced in and the 0-th step was run are not available in SLC7.
-
-Anyways, here's the mapping of architectures:
-
-- `slc6_amd64_gcc530` -> `slc7_amd64_gcc530`
-- `slc6_amd64_gcc630` -> `slc7_amd64_gcc630`
-- `slc6_amd64_gcc700` -> `slc7_amd64_gcc700`
-
 ### Instructions
 
-### Local submission
+#### Local submission
 
 This section assumes that your host machine is based on SLC7.
 Set up your CMSSW:
@@ -192,7 +183,13 @@ submit_jobs.sh slurm prod 2017 0 dl 550 v0
 submit_jobs.sh slurm prod 2018 0 dl 450 v0
 ```
 
-### CRAB submission
+A compromise is made when submitting native SLC7 jobs:
+
+- `slc6_amd64_gcc530` -> `slc7_amd64_gcc530`
+- `slc6_amd64_gcc630` -> `slc7_amd64_gcc630`
+- `slc6_amd64_gcc700` -> `slc7_amd64_gcc700`
+
+#### CRAB submission
 
 The only way to run step0 in CRAB worker nodes is to submit the jobs from SLC6.
 Spawning a singularity session does not work because of the following error:
@@ -266,4 +263,35 @@ submit_jobs.sh crab prod 2017 0 dl 300 v0
 submit_jobs.sh crab prod 2017 0 dl 550 v0
 
 submit_jobs.sh crab prod 2018 0 dl 450 v0
+```
+
+#### NanoAODv7 production
+
+```bash
+submit_nano.sh prod 2016 0 sl 280 v0
+submit_nano.sh prod 2016 0 sl 320 v0
+submit_nano.sh prod 2016 0 sl 750 v0
+submit_nano.sh prod 2016 0 sl 850 v0
+
+submit_nano.sh prod 2016 0 dl 250 v0
+submit_nano.sh prod 2016 0 dl 280 v0
+submit_nano.sh prod 2016 0 dl 320 v0
+submit_nano.sh prod 2016 0 dl 700 v0
+submit_nano.sh prod 2016 0 dl 850 v0
+
+submit_nano.sh prod 2016 2 sl 280 v0
+submit_nano.sh prod 2016 2 sl 320 v0
+submit_nano.sh prod 2016 2 sl 750 v0
+submit_nano.sh prod 2016 2 sl 850 v0
+
+submit_nano.sh prod 2016 2 dl 250 v0
+submit_nano.sh prod 2016 2 dl 280 v0
+submit_nano.sh prod 2016 2 dl 320 v0
+submit_nano.sh prod 2016 2 dl 750 v0
+submit_nano.sh prod 2016 2 dl 850 v0
+
+submit_nano.sh prod 2017 0 dl 300 v0
+submit_nano.sh prod 2017 0 dl 550 v0
+
+submit_nano.sh prod 2018 0 dl 450 v0
 ```

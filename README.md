@@ -2,8 +2,7 @@
 
 ## TODO
 
-- figure out if it's possible to publish flat trees or EDM only
-- if the latter (which is more likely), then figure out how to convert EDM into a flat tree
+- see if it's possible to share the Ntuples via rucio as described [here](https://github.com/dciangot/CMSRucio/tree/CRAB_script/docker/CMSRucioClient/scripts#user_scriptpy)
 
 ## Create missing gridpacks
 

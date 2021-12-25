@@ -29,7 +29,6 @@ DECAY_MODE      = get_env_var('DECAY_MODE')
 MASS            = get_env_var('MASS')
 VERSION         = get_env_var('VERSION')
 INPUT_PATH      = get_env_var('INPUT_PATH')
-PUBLISH         = bool(int(get_env_var('PUBLISH')))
 CMSSW_BASE      = get_env_var('CMSSW_BASE')
 CRAB_STATUS_DIR = get_env_var('CRAB_STATUS_DIR')
 
@@ -80,6 +79,6 @@ config.Data.splitting            = 'FileBased'
 config.Data.userInputFiles       = INPUT_FILES
 config.Data.unitsPerJob          = NFILES_PER_JOB
 config.Data.outLFNDirBase        = '/store/user/{}/CustomResonantHHProduction/{}'.format(crabUserName, VERSION)
-config.Data.publication          = PUBLISH
+config.Data.publication          = False
 config.Data.publishDBS           = 'phys03'
 config.Data.outputDatasetTag     = ID

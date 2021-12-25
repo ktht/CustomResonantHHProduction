@@ -66,16 +66,14 @@ fi;
 if [ "$MODE" == "prod" ]; then
   NOF_MAX_FILES=-1;
   NFILES_PER_JOB=150;
-  PUBLISH=1;
 elif [ "$MODE" == "test" ]; then
   NOF_MAX_FILES=10;
   NFILES_PER_JOB=2;
-  PUBLISH=0;
 else
   echo "Invalid mode: $MODE";
   exit 1;
 fi;
-export NOF_MAX_FILES NFILES_PER_JOB PUBLISH;
+export NOF_MAX_FILES NFILES_PER_JOB;
 
 echo "Checking if crab is available ..."
 CRAB_AVAILABLE=$(which crab 2>/dev/null)

@@ -78,7 +78,7 @@ config.JobType.sendPythonFolder        = True
 config.JobType.outputFiles             = [ 'step2.root' ]
 
 config.Site.storageSite = 'T2_EE_Estonia'
-config.Site.blacklist   = [ 'T2_PT_NCG_Lisbon', 'T2_BE_UCL' ]
+config.Site.blacklist   = [ 'T2_PT_NCG_Lisbon', 'T2_BE_UCL', 'T2_US_Wisconsin', 'T2_IN_TIFR', 'T3_US_PuertoRico', 'T2_US_Florida' ]
 
 config.Data.outputPrimaryDataset = DATASET
 config.Data.splitting            = 'EventBased'

@@ -1,9 +1,5 @@
 # Resonant HH production
 
-## TODO
-
-- see if it's possible to share the Ntuples via rucio as described [here](https://github.com/dciangot/CMSRucio/tree/CRAB_script/docker/CMSRucioClient/scripts#user_scriptpy)
-
 ## Create missing gridpacks
 
 NB! Do the following in clean environment, no CMSSW:

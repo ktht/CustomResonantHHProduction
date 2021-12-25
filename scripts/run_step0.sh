@@ -80,7 +80,7 @@ elif [ "$era" == "2017" ]; then
   EXTRA_CUSTOMS="";
 elif [ "$era" == "2018" ]; then
   SCRAM_ARCH="slc6_amd64_gcc700";
-  CMSSW_RELEASE="CMSSW_9_3_10";
+  CMSSW_RELEASE="CMSSW_10_2_22";
   GLOBAL_TAG="102X_upgrade2018_realistic_v11";
   ERA="Run2_2018";
   # we're only missing one mass point in this era

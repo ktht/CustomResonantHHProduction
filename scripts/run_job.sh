@@ -111,9 +111,6 @@ fi;
 if [ "$runNano_str" == "yes" ]; then
   ./run_step3.sh $era_nr $cmssw_host $method_str step2 step3;
   exit_code=$?;
-  mv -v step3.root tree.root;
-else
-  mv -v step2.root mini.root;
 fi;
 if [[ $exit_code -ne 0 ]]; then
   exit $exit_code;

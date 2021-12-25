@@ -34,9 +34,9 @@ run_job.sh $JOB_IDX \
   method=local;
 
 if [ "$RUN_NANO" == "yes" ]; then
-  cp -v tree.root $OUTPUT_DIR/tree_${JOB_IDX}.root;
+  cp -v step3.root $OUTPUT_DIR/tree_${JOB_IDX}.root;
 else
-  cp -v mini.root $OUTPUT_DIR/mini_${JOB_IDX}.root;
+  cp -v step2.root $OUTPUT_DIR/mini_${JOB_IDX}.root;
 fi;
 
 sleep 60

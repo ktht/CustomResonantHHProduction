@@ -36,7 +36,7 @@ if [ "$era" == "2016" ]; then
   CMSSW_RELEASE="CMSSW_8_0_21";
   GLOBAL_TAG="80X_mcRun2_asymptotic_2016_TrancheIV_v6";
   ERA="Run2_2016";
-  STEP_PMX="@frozen2016";
+  STEP_PMX="DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,HLT:@frozen2016";
   STEP_AOD="RAW2DIGI,RECO,EI";
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
@@ -45,7 +45,7 @@ elif [ "$era" == "2017" ]; then
   CMSSW_RELEASE="CMSSW_9_4_7";
   GLOBAL_TAG="94X_mc2017_realistic_v11";
   ERA="Run2_2017";
-  STEP_PMX="2e34v40";
+  STEP_PMX="DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,HLT:2e34v40";
   STEP_AOD="RAW2DIGI,RECO,RECOSIM,EI";
   EXTRA_ARGS_PMX="";
   EXTRA_ARGS_AOD="";
@@ -54,7 +54,7 @@ elif [ "$era" == "2018" ]; then
   CMSSW_RELEASE="CMSSW_10_2_5";
   GLOBAL_TAG="102X_upgrade2018_realistic_v15";
   ERA="Run2_2018";
-  STEP_PMX="@relval2018";
+  STEP_PMX="DIGI,DATAMIX,L1,DIGI2RAW,HLT:@relval2018";
   STEP_AOD="RAW2DIGI,L1Reco,RECO,RECOSIM,EI";
   EXTRA_ARGS_PMX="--procModifiers premix_stage2 --geometry DB:Extended";
   EXTRA_ARGS_AOD="--procModifiers premix_stage2";
@@ -126,7 +126,7 @@ CMSDRIVER_OPTS_PMX+=" --eventcontent PREMIXRAW";
 CMSDRIVER_OPTS_PMX+=" --datatier GEN-SIM-RAW";
 CMSDRIVER_OPTS_PMX+=" --filein file:$fileInTmp";
 CMSDRIVER_OPTS_PMX+=" --fileout file:$fileOutTmp";
-CMSDRIVER_OPTS_PMX+=" --step DIGIPREMIX_S2,DATAMIX,L1,DIGI2RAW,HLT:$STEP_PMX";
+CMSDRIVER_OPTS_PMX+=" --step $STEP_PMX";
 CMSDRIVER_OPTS_PMX+="  --datamix PreMix";
 
 pileup="$CWD/pu_${era}.txt";

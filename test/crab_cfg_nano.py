@@ -58,7 +58,7 @@ else:
 
 config = config()
 
-config.General.requestName     = ID
+config.General.requestName     = '{}_{}'.format(DATASET, ID)
 config.General.workArea        = CRAB_STATUS_DIR
 config.General.transferOutputs = True
 config.General.transferLogs    = True
@@ -69,7 +69,6 @@ config.JobType.pyCfgParams             = [ "era={}".format(ERA), 'globalTag={}'.
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.numCores                = 1
 config.JobType.maxMemoryMB             = 2000
-config.JobType.eventsPerLumi           = NFILES_PER_JOB
 
 config.Site.storageSite = HOME_SITE
 config.Site.whitelist   = [ HOME_SITE ]

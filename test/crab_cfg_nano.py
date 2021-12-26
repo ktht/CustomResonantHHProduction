@@ -23,7 +23,7 @@ def get_env_var(env_var, fail_if_not_exists = True, test_type = None):
   return env_val
 
 NFILES_PER_JOB  = int(get_env_var('NFILES_PER_JOB', test_type = test_positive_int))
-NOF_MAX_FILES   = int(get_env_var('NOF_MAX_FILES', test_type = test_positive_int))
+NOF_MAX_FILES   = int(get_env_var('NOF_MAX_FILES', test_type = lambda x: x.isdigit()))
 ERA             = int(get_env_var('ERA'))
 SPIN            = int(get_env_var('SPIN'))
 DECAY_MODE      = get_env_var('DECAY_MODE')

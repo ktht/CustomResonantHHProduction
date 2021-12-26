@@ -5,6 +5,7 @@ from Configuration.CustomResonantHHProduction.aux import get_dataset_name, get_n
 import os
 import glob
 import math
+import re
 
 def test_positive_int(arg):
   return arg.isdigit() and int(arg) > 0
@@ -42,7 +43,13 @@ ID           = '{}_{}_{}'.format(NANO_STR, GLOBAL_TAG, VERSION)
 HOME_SITE    = 'T2_EE_Estonia'
 crabUserName = getUsernameFromCRIC()
 
-INPUT_FILES = [ 'file:{}'.format(path) for path in glob.glob(os.path.join(INPUT_PATH, '000*', '*.root')) ]
+INPUT_GLOB = glob.glob(os.path.join(INPUT_PATH, '000*', '*.root'))
+INPUT_GLOB_SORTED = list(sorted(
+  INPUT_GLOB,
+  key = lambda fileName: int(re.match('step2_(?P<idx>\d+).root', os.path.basename(fileName)).group('idx'))
+))
+INPUT_FILES = [ 'file:{}'.format(path) for path in INPUT_GLOB_SORTED ]
+assert(INPUT_FILES)
 if NOF_MAX_FILES > 0:
   INPUT_FILES = INPUT_FILES[:NOF_MAX_FILES]
 

@@ -21,10 +21,10 @@ CWD=$PWD;
 if [ "$era" == "2016" ]; then
   GLOBAL_TAG="102X_mcRun2_asymptotic_v8";
   ERA="Run2_2016,run2_nanoAOD_94X2016";
-elif [ "$era" == "2016" ]; then
+elif [ "$era" == "2017" ]; then
   GLOBAL_TAG="102X_mc2017_realistic_v8";
   ERA="Run2_2017,run2_nanoAOD_94XMiniAODv2";
-elif [ "$era" == "2016" ]; then
+elif [ "$era" == "2018" ]; then
   GLOBAL_TAG="102X_upgrade2018_realistic_v21";
   ERA="Run2_2018,run2_nanoAOD_102Xv1";
 else

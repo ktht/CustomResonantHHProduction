@@ -128,8 +128,13 @@ elif [ "$METHOD" == "slurm" ]; then
     CLEANUP="true";
   fi;
 
+  MEMORY=2500M
+  if [ "$ERA" == "2018" ]; then
+    MEMORY="4000M"
+  fi;
+
   for i in `seq 1 $NOF_JOBS`; do
-    sbatch --partition=$SBATCH_QUEUE --output=$LOG_DIR/out_$i.log --mem=2500M \
+    sbatch --partition=$SBATCH_QUEUE --output=$LOG_DIR/out_$i.log --mem=$MEMORY \
       job_wrapper.sh $i $NEVENTS_PER_JOB $NEVENTS $ERA $SPIN $MASS \
                         $DECAY_MODE $CLEANUP $OUTPUT_DIR $RUN_NANO;
   done

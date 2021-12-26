@@ -57,7 +57,7 @@ if NOF_MAX_FILES > 0:
   INPUT_FILES = INPUT_FILES[:NOF_MAX_FILES]
 
 nof_inputs = len(INPUT_FILES)
-nof_jobs = int(math.ceil(nof_inputs / NFILES_PER_JOB))
+nof_jobs = int(math.ceil(float(nof_inputs) / NFILES_PER_JOB))
 print("Found {} input file(s), generating {} job(s):".format(nof_inputs, nof_jobs))
 if nof_inputs > 10:
   print('\n'.join([ '  {}'.format(path) for path in INPUT_FILES[:5] ]))

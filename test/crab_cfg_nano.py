@@ -58,7 +58,13 @@ else:
 
 config = config()
 
-config.General.requestName     = '{}_{}'.format(DATASET, ID)
+requestName = '{}_{}'.format(DATASET, ID)
+requestName_lenDiff = len(requestName) - 100
+if requestName_lenDiff > 0:
+  requestName = '{}_{}'.format(DATASET[:-requestName_lenDiff], ID)
+assert(len(requestName) <= 100)
+
+config.General.requestName     = requestName
 config.General.workArea        = CRAB_STATUS_DIR
 config.General.transferOutputs = True
 config.General.transferLogs    = True

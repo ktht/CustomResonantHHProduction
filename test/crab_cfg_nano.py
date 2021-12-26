@@ -10,6 +10,9 @@ import re
 def test_positive_int(arg):
   return arg.isdigit() and int(arg) > 0
 
+def test_int(arg):
+  return test_positive_int(arg) or (arg.startswith('-') and test_positive_int(arg[1:]))
+
 def get_env_var(env_var, fail_if_not_exists = True, test_type = None):
   if env_var not in os.environ:
     if fail_if_not_exists:
@@ -19,11 +22,11 @@ def get_env_var(env_var, fail_if_not_exists = True, test_type = None):
   env_val = os.environ[env_var]
   if test_type != None:
     if not test_type(env_val):
-      raise RuntimeError("Got invalid type for variable: %s" % env_var)
+      raise RuntimeError("Got invalid type for variable: %s (val: %s)" % (env_var, env_val))
   return env_val
 
 NFILES_PER_JOB  = int(get_env_var('NFILES_PER_JOB', test_type = test_positive_int))
-NOF_MAX_FILES   = int(get_env_var('NOF_MAX_FILES', test_type = lambda x: x.isdigit()))
+NOF_MAX_FILES   = int(get_env_var('NOF_MAX_FILES', test_type = test_int))
 ERA             = int(get_env_var('ERA'))
 SPIN            = int(get_env_var('SPIN'))
 DECAY_MODE      = get_env_var('DECAY_MODE')

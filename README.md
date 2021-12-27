@@ -1,13 +1,20 @@
 # Resonant HH production
 
-## Known issues:
+## Known issues
 
 Not going to fix them because the production is basically over but still worth mentioning:
 
-- Memory requirements increase for 2017 and (especially for) 2018. Probably need to use 2 cores when asking more than 2500M of memory.
-- A handful of 2018 jobs failed with Geant4 errors ("Track stuck, not moving for 25 steps in volume"). The most efficient way to get rid of this error is by using a different seed at the LHE+GEN-SIM step, so that a different configuration of particles enter the detector simulation that doesn't cause any issues.
-- A small number of 2018 jobs failed because the files from MinBias sample were no simply accessible. No other way around it other than reshuffling the file list with a different seed or resubmitting the same job (in case the issue was due to temporary loss of connection).
-- The LFN paths (including the `file:` prefix) to MiniAOD files that are later Ntupelized must be less than 255 characters long. A temporary solution is to rename the directories created by CRAB to respect this requirement. A long-term solution would be rethinking how to construct request ID such that it won't violate this rule.
+- Memory requirements increase for 2017 and (especially for) 2018.
+Probably need to use 2 cores when asking more than 2500M of memory.
+- A handful of 2018 jobs failed with Geant4 errors ("Track stuck, not moving for 25 steps in volume").
+The most efficient way to get rid of this error is by using a different seed at the LHE+GEN-SIM step,
+so that a different configuration of particles enter the detector simulation that doesn't cause any issues.
+- A small number of 2018 jobs failed because the files from MinBias sample were no simply accessible.
+No other way around it other than reshuffling the file list with a different seed or resubmitting the same job
+(in case the issue was due to temporary loss of connection).
+- The LFN paths (including the `file:` prefix) to MiniAOD files that are later Ntupelized must be less than
+255 characters long. A temporary solution is to rename the directories created by CRAB to respect this requirement.
+A long-term solution would be rethinking how to construct request ID such that it won't violate this rule.
 
 ## Create missing gridpacks
 

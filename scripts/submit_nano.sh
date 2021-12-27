@@ -65,7 +65,7 @@ fi;
 
 if [ "$MODE" == "prod" ]; then
   NOF_MAX_FILES=-1;
-  NFILES_PER_JOB=150;
+  NFILES_PER_JOB=100;
 elif [ "$MODE" == "test" ]; then
   NOF_MAX_FILES=10;
   NFILES_PER_JOB=2;

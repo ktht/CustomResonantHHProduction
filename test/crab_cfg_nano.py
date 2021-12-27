@@ -49,7 +49,7 @@ crabUserName = getUsernameFromCRIC()
 INPUT_GLOB = glob.glob(os.path.join(INPUT_PATH, '000*', '*.root'))
 INPUT_GLOB_SORTED = list(sorted(
   INPUT_GLOB,
-  key = lambda fileName: int(re.match('step2_(?P<idx>\d+).root', os.path.basename(fileName)).group('idx'))
+  key = lambda fileName: int(re.match('(step2|mini)_(?P<idx>\d+).root', os.path.basename(fileName)).group('idx'))
 ))
 INPUT_FILES = [ 'file:{}'.format(path) for path in INPUT_GLOB_SORTED ]
 assert(INPUT_FILES)

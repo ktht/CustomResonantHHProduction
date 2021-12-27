@@ -46,6 +46,7 @@ ID           = '{}_{}_{}'.format(NANO_STR, GLOBAL_TAG, VERSION)
 HOME_SITE    = 'T2_EE_Estonia'
 crabUserName = getUsernameFromCRIC()
 
+# turns out that sorting has no effect whatsoever: CRAB just wraps the list into a set, thus losing the order
 INPUT_GLOB = glob.glob(os.path.join(INPUT_PATH, '000*', '*.root'))
 INPUT_GLOB_SORTED = list(sorted(
   INPUT_GLOB,
